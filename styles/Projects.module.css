@@ -1,0 +1,16 @@
+.container {
+    padding-left: 4vw;
+}
+
+.title {
+    max-height:10vh;
+}
+
+.title h1 {
+}
+.main {
+    min-height: 83vh;
+}
+.footer {
+    max-height: 5vh;
+}

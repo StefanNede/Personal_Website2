@@ -1,0 +1,23 @@
+.header {
+    display: flex;
+    width: 90vw;
+    justify-content: space-between;
+}
+
+.nav div:hover {
+    text-decoration: underline;
+}
+
+.nav ul {
+    display: flex;
+    flex-direction: column;
+}
+
+.header h1:hover {
+    text-decoration: underline;
+}
+
+
+.counter {
+    padding: 0.25rem 0.5rem;
+}
