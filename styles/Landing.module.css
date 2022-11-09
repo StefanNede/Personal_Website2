@@ -4,19 +4,67 @@
     justify-content: space-between;
 }
 
-.nav div:hover {
-    text-decoration: underline;
+.header h1 {
+    position: relative;
+    font-size: 2rem;
+    height:100%;
+    transition: font-size 0.4s ease-in-out;
+}
+
+.header h1::before{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:2px;
+    background-color: #ffffff;
+    bottom:0;
+    left:0;
+    transition: all 0.3s ease-in-out;
+    visibility: hidden;
+    transform: scaleX(0);
+}
+
+.header h1:hover::before {
+    visibility: visible;
+    transform: scaleX(1);
+}
+
+.header h1:hover {
+    font-size: 2.25rem;
+}
+
+.nav div{
+    position: relative;
+}
+
+.nav div::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #c1c1c1;
+    visibility: hidden;
+    transform: scaleX(0);
+    transition: all 0.3s ease-in-out;
+}
+
+.nav div:hover::before {
+    visibility: visible;
+    transform: scaleX(1);
+}
+
+.nav div:hover{
+    transition: color 0.5s ease;
+    color: #e3e4e6;
 }
 
 .nav ul {
     display: flex;
+    align-items: center;
     flex-direction: column;
 }
-
-.header h1:hover {
-    text-decoration: underline;
-}
-
 
 .counter {
     padding: 0.25rem 0.5rem;
