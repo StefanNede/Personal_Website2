@@ -1,5 +1,5 @@
 import { getChiSquared } from "./chiSquared"
-export const getAffineDecode = (text:string):string => {
+export const getAffineDecode = (text:string):Array<any> => {
     let englishRating:number = getChiSquared(text)
-    return text
+    return ["",text]
 }

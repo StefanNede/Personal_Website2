@@ -2,21 +2,22 @@ import Link from "next/link"
 import styles from '../styles/Cipher.module.css'
 import React, { useEffect, useState } from "react"
 import { getChiSquared } from "./cipherSolver/chiSquared"
+import { getIoc } from "./cipherSolver/ioc"
 import { getCaesarDecode } from "./cipherSolver/caesar"
 import { getSubstitutionDecode } from "./cipherSolver/substitution"
 import { getAffineDecode } from "./cipherSolver/affine"
 
 export default function CipherSolver() {
     const [encoded, setEncoded] = useState("")
-    const [selectedCipher, setSelectedCipher] = useState("caesar")
     const [decoded, setDecoded] = useState("")
+    const [selectedCipher, setSelectedCipher] = useState("caesar")
+    const [keyUsed, setKeyUsed] = useState(0)
     const [ioc, setIoc] = useState(0)
     const [chi, setChi] = useState(0) 
 
     useEffect(() => {
         setChi(getChiSquared(encoded))
-        // setIoc(getIoc(encoded))
-        console.log(encoded)
+        setIoc(getIoc(encoded))
     }, [encoded])
     
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -24,19 +25,30 @@ export default function CipherSolver() {
         if (encoded.length < 1) {
             alert("no encoded text was entered")
         } else{
-            let res:string = ''
+            let res:Array<any> = []
+            let decodedText:string = ''
+            let keyUsed:any = 0
             switch (selectedCipher) {
                 case "caesar":
                     res = getCaesarDecode(encoded)
-                    setDecoded(res)
+                    decodedText= res[1]
+                    keyUsed = res[0]
+                    setDecoded(decodedText)
+                    setKeyUsed(keyUsed) 
                     break
                 case "substitution":
                     res = getSubstitutionDecode(encoded)
-                    setDecoded(res)
+                    decodedText= res[1]
+                    keyUsed= res[0]
+                    setDecoded(decodedText)
+                    setKeyUsed(keyUsed) 
                     break
                 case "affine":
                     res = getAffineDecode(encoded)
-                    setDecoded(res)
+                    decodedText = res[1]
+                    keyUsed = res[0]
+                    setDecoded(decodedText)
+                    setKeyUsed(keyUsed) 
                     break
                 case "unknown":
                     alert("It appears you do not know what cipher is used")
@@ -82,6 +94,7 @@ export default function CipherSolver() {
                 <br />
                 <div className={styles.decodedText}>
                     <p>Decoded text:</p>
+                    <p>Key used: {keyUsed}</p>
                     <textarea className={styles.decodedInput} placeholder="decoded cipher here..." value={decoded} readOnly/>
                 </div>
             </main>

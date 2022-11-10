@@ -16,32 +16,32 @@ const getFrequencies = (text:string):Map<string,number> => {
 const getExpectedFrequencies = (alphabet:Array<string>, tLength:number):Map<string,number> => {
     let resMap:Map<string,number> = new Map()
     const expectedPercentages:Map<string,number> = new Map ([
-        ['a',8.2],
-        ['b',1.5],
-        ['c',2.8],
-        ['d',4.3],
-        ['e',12.7],
-        ['f',2.2],
-        ['g',2.0],
-        ['h',6.1],
-        ['i',7.0],
-        ['j',0.2],
-        ['k',0.8],
-        ['l',4.0],
-        ['m',2.4],
-        ['n',6.7],
-        ['o',7.5],
-        ['p',1.9],
+        ['a',8.55],
+        ['b',1.6],
+        ['c',3.16],
+        ['d',3.87],
+        ['e',12.1],
+        ['f',2.18],
+        ['g',2.09],
+        ['h',4.96],
+        ['i',7.33],
+        ['j',0.22],
+        ['k',0.81],
+        ['l',4.21],
+        ['m',2.53],
+        ['n',7.17],
+        ['o',7.47],
+        ['p',2.07],
         ['q',0.1],
-        ['r',6.0],
-        ['s',6.3],
-        ['t',9.1],
-        ['u',2.8],
-        ['v',1.0],
-        ['w',2.4],
-        ['x',0.2],
-        ['y',2.0],
-        ['z',0.1]
+        ['r',6.33],
+        ['s',6.74],
+        ['t',8.94],
+        ['u',2.68],
+        ['v',1.06],
+        ['w',1.83],
+        ['x',0.19],
+        ['y',1.72],
+        ['z',0.11]
     ])
     for (let i:number=0; i<alphabet.length;i++) {
         let expFrequ:number = ((expectedPercentages.get(alphabet[i])!)/100) * tLength
@@ -55,8 +55,8 @@ export const getChiSquared = (text:string):number => {
     const alphabet:Array<string> = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
     const frequencies:Map<string,number> = getFrequencies(text)
     const expectedFrequencies:Map<string,number> = getExpectedFrequencies(alphabet,text.length)
-    // console.log(frequencies)
-    // console.log(expectedFrequencies)
+    //console.log(frequencies)
+    //console.log(expectedFrequencies)
     let res:number = 0;
     for (let i:number = 0; i < alphabet.length;i++) {
         let expFrequ:number = expectedFrequencies.get(alphabet[i])!
