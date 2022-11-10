@@ -4,6 +4,7 @@ export default function Draw() {
     return (
         <div className="container">
             <main>
+
                 <p>you can draw here</p>
             </main>
             <footer>
