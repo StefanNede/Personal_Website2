@@ -10,10 +10,14 @@ export default function CipherSolver() {
     const [encoded, setEncoded] = useState("")
     const [selectedCipher, setSelectedCipher] = useState("caesar")
     const [decoded, setDecoded] = useState("")
+    const [ioc, setIoc] = useState(0)
+    const [chi, setChi] = useState(0) 
 
     useEffect(() => {
-        console.log(getChiSquared('hello'))
-    }, [])
+        setChi(getChiSquared(encoded))
+        // setIoc(getIoc(encoded))
+        console.log(encoded)
+    }, [encoded])
     
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -55,28 +59,30 @@ export default function CipherSolver() {
                 <h1>Cipher Solver</h1>
             </div>
             <main className={styles.main}>
-                <p>
-                    I am a cipher solver thingy lol
-                </p>
-                <form onSubmit={handleSubmit}>
-                    <label>
-                        Encoded text:
-                        <br />
-                        <input type="text" value={encoded} 
-                            onChange={(e) => setEncoded(e.target.value)} />
-                    </label>
-                    <input type="submit" value="Submit" />
-                </form>
+                <p>chi: {chi}</p>
+                <p>ioc: {ioc}</p>
                 <select value={selectedCipher} onChange={handleCipherChange}>
                     <option value="caesar">caesar</option>
                     <option value="substitution">substitution</option>
                     <option value="affine">affine</option>
+                    <option value="vigenere">vigenere</option>
+                    <option value="railFence">rail fence</option>
                     <option value="unknown">unknown</option>
                 </select>
+                <form onSubmit={handleSubmit}>
+                    <label>
+                        Encoded text:
+                        <br />
+                        <textarea className={styles.encodedInput} placeholder="write encoded cipher here..." value={encoded} 
+                            onChange={(e) => setEncoded(e.target.value)} />
+                    </label>
+                    <br />
+                    <input type="submit" value="Submit" />
+                </form>
                 <br />
                 <div className={styles.decodedText}>
                     <p>Decoded text:</p>
-                    <p>{decoded}</p>
+                    <textarea className={styles.decodedInput} placeholder="decoded cipher here..." value={decoded} readOnly/>
                 </div>
             </main>
             <footer className={styles.footer}>

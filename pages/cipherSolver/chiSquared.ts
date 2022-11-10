@@ -1,3 +1,4 @@
+import { formatString } from "./formatString"
 const getFrequencies = (text:string):Map<string,number> => {
     let resMap:Map<string, number> = new Map()
     for (let i:number=0;i<text.length;i++) {
@@ -50,8 +51,7 @@ const getExpectedFrequencies = (alphabet:Array<string>, tLength:number):Map<stri
 }
 
 export const getChiSquared = (text:string):number => {
-    text = text.toLowerCase()
-    text = text.replace(' ','')
+    text = formatString(text)
     const alphabet:Array<string> = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
     const frequencies:Map<string,number> = getFrequencies(text)
     const expectedFrequencies:Map<string,number> = getExpectedFrequencies(alphabet,text.length)
