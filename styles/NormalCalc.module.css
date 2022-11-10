@@ -3,7 +3,7 @@
 }
 
 .title {
-    max-height:10vh;
+    min-height:10vh;
 }
 
 .title h1 {
