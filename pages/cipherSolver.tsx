@@ -47,6 +47,7 @@ export default function CipherSolver() {
                     res = getAffineDecode(encoded)
                     decodedText = res[1]
                     keyUsed = res[0]
+                    console.log(keyUsed)
                     setDecoded(decodedText)
                     setKeyUsed(keyUsed) 
                     break
