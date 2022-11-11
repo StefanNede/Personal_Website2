@@ -53,7 +53,6 @@ export default function CipherSolver() {
                     res = getAffineDecode(encoded)
                     decodedText = res[1]
                     keyUsed = res[0]
-                    console.log(keyUsed)
                     setDecoded(decodedText)
                     setKeyUsed(keyUsed) 
                     break
@@ -61,7 +60,6 @@ export default function CipherSolver() {
                     res = getAtbashDecode(encoded)
                     decodedText = res[1]
                     keyUsed = res[0]
-                    console.log(keyUsed)
                     setDecoded(decodedText)
                     setKeyUsed(keyUsed) 
                     break
@@ -69,7 +67,6 @@ export default function CipherSolver() {
                     res = getAlbamDecode(encoded)
                     decodedText = res[1]
                     keyUsed = res[0]
-                    console.log(keyUsed)
                     setDecoded(decodedText)
                     setKeyUsed(keyUsed) 
                     break
@@ -77,7 +74,6 @@ export default function CipherSolver() {
                     res = getPolybiusDecode(encoded)
                     decodedText = res[1]
                     keyUsed = res[0]
-                    console.log(keyUsed)
                     setDecoded(decodedText)
                     setKeyUsed(keyUsed) 
                     break
@@ -87,8 +83,8 @@ export default function CipherSolver() {
                 default:
                     alert("this website appears to be fucking dogshit")
             }
-            console.log(`submitted encoded text is: ${encoded}\n`)
-            console.log(`selected cipher is: ${selectedCipher}`)
+            //console.log(`submitted encoded text is: ${encoded}\n`)
+            //console.log(`selected cipher is: ${selectedCipher}`)
         }
     }
 
@@ -124,7 +120,7 @@ export default function CipherSolver() {
                             onChange={(e) => setEncoded(e.target.value)} />
                     </label>
                     <br />
-                    <input type="submit" value="Submit" />
+                    <input className={styles.submitBtn} type="submit" value="Submit" />
                 </form>
                 <br />
                 <div className={styles.decodedText}>

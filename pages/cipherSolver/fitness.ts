@@ -29,11 +29,10 @@ export const tetragramFitness = (text:string):number => {
     tetras.forEach((count, tetra) => {
         let p:number = 0
         if (tetragrams.has(tetra.toUpperCase())) { 
-            p = tetragrams.get(tetra.toUpperCase())
+            p = tetragrams.get(tetra.toUpperCase())!
         } else {
             p = -10
         }
-        console.log(p)
         res += p
     })
     return res
