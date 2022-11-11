@@ -1,3 +1,4 @@
+import { alphabet } from "./alphabet"
 import { getChiSquared } from "./chiSquared"
 
 const getCaesarScore = (text:string):number => {
@@ -25,7 +26,6 @@ export const getCaesarDecode = (text:string):Array<any> => {
     let key:number = 0
     let highestRating:number = -1
     let solvedCode:string = ""
-    const alphabet:Array<string> = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
     // get the key that gives the highest english rating
     for (let i=0;i<26;i++) {

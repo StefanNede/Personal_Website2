@@ -1,6 +1,5 @@
 import { getChiSquared } from "./chiSquared"
-
-const alphabet:Array<string> = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+import { alphabet } from "./alphabet"
 
 const getPosMod = (num:number, mod:number):number => {
     return (((num)%mod)+mod)%26
@@ -44,6 +43,10 @@ const decryptLetter = (a:number, b:number, m:number, letter:string):number => {
 }
 
 export const getAffineDecode = (text:string):Array<any> => {
+    let usedUpper:boolean = false
+    if (text === text.toUpperCase()) {
+        usedUpper = true
+    } 
     text = text.toLowerCase()
     let aPsbs:Array<number> = [1,1,3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25]
     let bPsbs:Array<number> = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
@@ -76,7 +79,9 @@ export const getAffineDecode = (text:string):Array<any> => {
         }
     }
 
-
+    if (usedUpper) {
+        solvedCode = solvedCode.toUpperCase()
+    }
     // format of [[multiplier, shift size], solved code]
-    return [[a, b],solvedCode]
+    return [`Multiplier: ${a}, Shift size: ${b}`,solvedCode]
 }

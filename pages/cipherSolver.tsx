@@ -6,18 +6,24 @@ import { getIoc } from "./cipherSolver/ioc"
 import { getCaesarDecode } from "./cipherSolver/caesar"
 import { getSubstitutionDecode } from "./cipherSolver/substitution"
 import { getAffineDecode } from "./cipherSolver/affine"
+import { getPolybiusDecode } from "./cipherSolver/polybius"
+import { getEntropy } from "./cipherSolver/entropy"
+import { getAtbashDecode } from "./cipherSolver/atbash"
+import { getAlbamDecode } from "./cipherSolver/albam"
 
 export default function CipherSolver() {
     const [encoded, setEncoded] = useState("")
     const [decoded, setDecoded] = useState("")
     const [selectedCipher, setSelectedCipher] = useState("caesar")
-    const [keyUsed, setKeyUsed] = useState(0)
+    const [keyUsed, setKeyUsed] = useState("")
     const [ioc, setIoc] = useState(0)
     const [chi, setChi] = useState(0) 
+    const [entropy, setEntropy] = useState(0)
 
     useEffect(() => {
         setChi(getChiSquared(encoded))
         setIoc(getIoc(encoded))
+        setEntropy(getEntropy(encoded))
     }, [encoded])
     
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -51,6 +57,30 @@ export default function CipherSolver() {
                     setDecoded(decodedText)
                     setKeyUsed(keyUsed) 
                     break
+                case "atbash":
+                    res = getAtbashDecode(encoded)
+                    decodedText = res[1]
+                    keyUsed = res[0]
+                    console.log(keyUsed)
+                    setDecoded(decodedText)
+                    setKeyUsed(keyUsed) 
+                    break
+                case "albam":
+                    res = getAlbamDecode(encoded)
+                    decodedText = res[1]
+                    keyUsed = res[0]
+                    console.log(keyUsed)
+                    setDecoded(decodedText)
+                    setKeyUsed(keyUsed) 
+                    break
+                case "polybius":
+                    res = getPolybiusDecode(encoded)
+                    decodedText = res[1]
+                    keyUsed = res[0]
+                    console.log(keyUsed)
+                    setDecoded(decodedText)
+                    setKeyUsed(keyUsed) 
+                    break
                 case "unknown":
                     alert("It appears you do not know what cipher is used")
                     break
@@ -74,10 +104,14 @@ export default function CipherSolver() {
             <main className={styles.main}>
                 <p>chi: {chi}</p>
                 <p>ioc: {ioc}</p>
+                <p>entropy: {entropy}</p>
                 <select value={selectedCipher} onChange={handleCipherChange}>
                     <option value="caesar">caesar</option>
-                    <option value="substitution">substitution</option>
                     <option value="affine">affine</option>
+                    <option value="atbash">atbash</option>
+                    <option value="albam">albam</option>
+                    <option value="substitution">substitution</option>
+                    <option value="polybius">polybius</option>
                     <option value="vigenere">vigenere</option>
                     <option value="railFence">rail fence</option>
                     <option value="unknown">unknown</option>
@@ -95,7 +129,7 @@ export default function CipherSolver() {
                 <br />
                 <div className={styles.decodedText}>
                     <p>Decoded text:</p>
-                    <p>Key used: {keyUsed}</p>
+                    <p>Key used: <br/>{keyUsed}</p>
                     <textarea className={styles.decodedInput} placeholder="decoded cipher here..." value={decoded} readOnly/>
                 </div>
             </main>
