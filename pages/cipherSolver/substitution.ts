@@ -20,6 +20,12 @@ const getFitness = (text:string):number => {
 }
 
 const getChildKey = (parentKey:Array<string>):Array<string> => {
+    let resKey:Array<string> = []
+
+    for (let key of parentKey) {
+        resKey.push(key)
+    }
+
     let x:number = getRandomNum(0, 25)
     let y:number = getRandomNum(0, 25)
     while (y === x) {
@@ -28,11 +34,11 @@ const getChildKey = (parentKey:Array<string>):Array<string> => {
     }
 
     // perform the swap
-    let temp:string = parentKey[x]
-    parentKey[x] = parentKey[y]
-    parentKey[y] = temp
+    let temp:string = resKey[x]
+    resKey[x] = resKey[y]
+    resKey[y] = temp
 
-    return parentKey
+    return resKey 
 }
 
 const decipherText = (text:string, key:Array<string>):string => {
@@ -40,7 +46,6 @@ const decipherText = (text:string, key:Array<string>):string => {
     let res:string = ""
     for (let letter of text) {
         if (alphabet.includes(letter)) {
-            console.log(key)
             let i:number = key.indexOf(letter)
             letter = alphabet[i]
         }
@@ -55,8 +60,11 @@ export const getSubstitutionDecode = (text:string):Array<any> => {
     let deciphered:string = decipherText(text, key)
     let fitness:number = getFitness(deciphered) 
     let counter:number = 0
-    while (counter < 10000) {
-        let childKey:Array<string> = getChildKey(key)
+    let upperBound:number = text.length
+    while (counter < upperBound) {
+        let oldKey:Array<string> = []
+        for (let k of key) { oldKey.push(k)}
+        let childKey:Array<string> = getChildKey(oldKey)
         let deciphered2:string = decipherText(text, childKey)
         let fitness2:number = getFitness(deciphered2)
         if (fitness2 > fitness) {
