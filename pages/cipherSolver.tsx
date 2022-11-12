@@ -162,7 +162,7 @@ export default function CipherSolver() {
                             <option value="stats">stats</option>
                         </select>
                     </div>
-                    <div className={styles.keyUsed}>Key used:<br/>{keyUsed}</div>
+                    <div className={styles.keyUsedWrapper}>Key used:<div className={styles.keyUsed}>{keyUsed}</div></div>
                 </div>
             </main>
         </div>
