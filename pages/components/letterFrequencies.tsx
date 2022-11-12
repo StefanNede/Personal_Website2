@@ -41,9 +41,9 @@ const LetterFrequencies:React.FC<Props> = ({frequ}) => {
             <table className={styles.table}>
                 <tbody>
                     <tr>
-                        <th className={styles.th}>Letter</th>
+                        <th className={styles.th}>letter</th>
                         <th className={styles.th}>frequency</th>
-                        <th className={styles.th}>Letter</th>
+                        <th className={styles.th}>letter</th>
                         <th className={styles.th}>frequency</th>
                     </tr>
                     {rows}

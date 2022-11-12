@@ -40,3 +40,8 @@
 .submitBtn:hover {
     cursor:pointer;
 }
+
+
+.letterTable {
+    max-width: 40vw;
+}

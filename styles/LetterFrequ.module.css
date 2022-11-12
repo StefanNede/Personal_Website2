@@ -3,6 +3,10 @@
     width:100%;
 }
 
+.th {
+    background-color: #212121;
+}
+
 .td, .th {
     border: 1px solid #dddddd;
     text-align: center;

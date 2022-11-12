@@ -12,6 +12,7 @@ import { getAtbashDecode } from "./cipherSolver/atbash"
 import { getAlbamDecode } from "./cipherSolver/albam"
 import { getFrequencies } from "./cipherSolver/chiSquared"
 import { formatString } from "./cipherSolver/formatString"
+import { getLikelyCipher } from "./cipherSolver/likelyCipher"
 
 export default function CipherSolver() {
     const [encoded, setEncoded] = useState("")
@@ -20,11 +21,17 @@ export default function CipherSolver() {
     const [keyUsed, setKeyUsed] = useState("")
     const [ioc, setIoc] = useState(0)
     const [chi, setChi] = useState(0) 
+    const [textLength, setTextLength] = useState(0) 
+    const [textLength2, setTextLength2] = useState(0) 
+    const [likelyCipher, setLikelyCipher] = useState("") 
     const [frequencies, setFrequencies] = useState(new Map())
 
     useEffect(() => {
         setChi(getChiSquared(encoded))
         setIoc(getIoc(encoded))
+        setTextLength(encoded.length)
+        setTextLength2(formatString(encoded).length)
+        setLikelyCipher(getLikelyCipher())
     }, [encoded])
     
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -104,36 +111,54 @@ export default function CipherSolver() {
                 <h1>Cipher Solver</h1>
             </div>
             <main className={styles.main}>
-                <p>chi: {chi}</p>
-                <p>ioc: {ioc}</p>
-                <LetterFrequencies frequ={frequencies}/>
-                <select value={selectedCipher} onChange={handleCipherChange}>
-                    <option value="caesar">caesar</option>
-                    <option value="affine">affine</option>
-                    <option value="atbash">atbash</option>
-                    <option value="albam">albam</option>
-                    <option value="substitution">substitution</option>
-                    <option value="polybius">polybius</option>
-                    <option value="vigenere">vigenere</option>
-                    <option value="railFence">rail fence</option>
-                    <option value="unknown">unknown</option>
-                    <option value="stats">stats</option>
-                </select>
-                <form onSubmit={handleSubmit}>
-                    <label>
-                        Encoded text:
-                        <br />
-                        <textarea className={styles.encodedInput} placeholder="write encoded cipher here..." value={encoded} 
-                            onChange={(e) => setEncoded(e.target.value)} />
-                    </label>
-                    <br />
-                    <input className={styles.submitBtn} type="submit" value="Submit" />
-                </form>
-                <br />
-                <div className={styles.decodedText}>
-                    <p>Decoded text:</p>
-                    <p>Key used: <br/>{keyUsed}</p>
-                    <textarea className={styles.decodedInput} placeholder="decoded cipher here..." value={decoded} readOnly/>
+                <div className={styles.left}>
+                    <div className={styles.analysis}>
+                        <p>chi: {chi}</p>
+                        <p>ioc: {ioc}</p>
+                        <p>text length: {textLength}</p>
+                        <p>text length(just letters): {textLength2}</p>
+                        <p>likely cipher: {likelyCipher}</p>
+                        <div className={styles.letterTable}>
+                            <LetterFrequencies frequ={frequencies}/>
+                        </div>
+                    </div>
+                </div>
+                
+                <div className={styles.center}>
+                    <div className={styles.inputCode}>
+                        <form onSubmit={handleSubmit}>
+                            <label>
+                                Encoded text:
+                                <br />
+                                <textarea className={styles.encodedInput} placeholder="write encoded cipher here..." value={encoded} 
+                                    onChange={(e) => setEncoded(e.target.value)} />
+                            </label>
+                            <br />
+                            <input className={styles.submitBtn} type="submit" value="Submit" />
+                        </form>
+                    </div>
+                    <div className={styles.decodedText}>
+                        <p>Decoded text:</p>
+                        <p>Key used: <br/>{keyUsed}</p>
+                        <textarea className={styles.decodedInput} placeholder="decoded cipher here..." value={decoded} readOnly/>
+                    </div>
+                </div>
+
+                <div className={styles.right}>
+                    <div className={styles.cipherSelect}>
+                        <select value={selectedCipher} onChange={handleCipherChange}>
+                            <option value="caesar">caesar</option>
+                            <option value="affine">affine</option>
+                            <option value="atbash">atbash</option>
+                            <option value="albam">albam</option>
+                            <option value="substitution">substitution</option>
+                            <option value="polybius">polybius</option>
+                            <option value="vigenere">vigenere</option>
+                            <option value="railFence">rail fence</option>
+                            <option value="unknown">unknown</option>
+                            <option value="stats">stats</option>
+                        </select>
+                    </div>
                 </div>
             </main>
             <footer className={styles.footer}>
