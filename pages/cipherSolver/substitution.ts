@@ -20,6 +20,8 @@ const getFitness = (text:string):number => {
 }
 
 const getChildKey = (parentKey:Array<string>):Array<string> => {
+    // if i set res key to parent key and changed res key it also changes parent key
+    // cuz why the fuck wouldn't it
     let resKey:Array<string> = []
 
     for (let key of parentKey) {
@@ -61,6 +63,7 @@ export const getSubstitutionDecode = (text:string):Array<any> => {
     let fitness:number = getFitness(deciphered) 
     let counter:number = 0
     let upperBound:number = text.length
+    if (upperBound > 10000) { upperBound = 10000}
     while (counter < upperBound) {
         let oldKey:Array<string> = []
         for (let k of key) { oldKey.push(k)}
