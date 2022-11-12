@@ -12,5 +12,5 @@ export const getAtbashDecode = (text:string):Array<any> => {
         solvedCode += letter
     }
 
-    return [`${reverseAlphabet.join('').toUpperCase()} => ${alphabet.join('').toUpperCase()}`, solvedCode.toUpperCase()]
+    return [`${reverseAlphabet.join('').toUpperCase()} \n ${alphabet.join('').toUpperCase()}`, solvedCode.toUpperCase()]
 }

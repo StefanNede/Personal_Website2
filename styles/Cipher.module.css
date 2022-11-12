@@ -1,25 +1,78 @@
 .container {
-    padding-left: 4vw;
+    padding-left: 2.5vw;
 }
 
 .title {
     min-height:10vh;
+    display: flex;
+    justify-content: space-between;
+}
+
+.title div {
+    margin-top:3vh; 
+    margin-right:3vw;
 }
 
 .title h1 {
     color: rgb(69, 127, 69);
 }
+
 .main {
     min-height: 83vh;
+    display:flex;
 }
-.footer {
-    padding-top:5vh;
-    max-height: 5vh;
+
+/* left side */
+.left {
+    max-width:20vw;
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+}
+
+.left h3 {
+    margin-top: 0;
+    margin-bottom: 2.5vh;
+    width: 100%;
+    text-align: center;
+    background-color: rgb(72, 72, 72);
+    padding: 0.75vh;
+}
+
+.analysis {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+}
+
+.analysis p {
+    margin: 1vh;
+    padding:0;
+}
+
+.letterTable {
+    margin-top: 2.5vh;
+    max-width: 40vw;
+}
+
+/* middle */
+.center {
+    min-width:55vw;
+    padding-left: 2.5vw;
+}
+
+.center h3 {
+    margin-top: 0;
+    margin-bottom: 3.5vh;
+    width: 100%;
+    text-align: center;
+    background-color: rgb(72, 72, 72);
+    padding: 0.75vh;
 }
 
 .encodedInput {
-    width: 80vw;
-    height:30vh;
+    width: 100%;
+    min-height:30vh;
     transition: background-color 0.5s ease;
     background-color: rgb(57, 57, 57);
     resize: none;
@@ -30,7 +83,7 @@
 }
 
 .decodedInput {
-    width: 80vw;
+    width: 100%;
     min-height:30vh;
     height:100%;
     background-color: rgb(57, 57, 57);
@@ -41,7 +94,26 @@
     cursor:pointer;
 }
 
+/* right side */
+.right {
+    display:flex;
+    align-items: center;
+    flex-direction: column;
+    padding-left: 2.5vw;
+    padding-right: 2.5vw;
+    width:100%;
+}
 
-.letterTable {
-    max-width: 40vw;
+.right h3 {
+    margin-top: 0;
+    margin-bottom: 3.5vh;
+    text-align: center;
+    width:100%;
+    background-color: rgb(72, 72, 72);
+    padding: 0.75vh;
+}
+
+.keyUsed {
+    margin-top:5vh;
+    text-align: center;
 }

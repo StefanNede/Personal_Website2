@@ -13,5 +13,5 @@ export const getAlbamDecode = (text:string):Array<any> => {
         solvedCode += letter
     }
 
-    return [`${ammendedAlphabet.join('').toUpperCase()} => ${alphabet.join('').toUpperCase()}`, solvedCode.toUpperCase()]
+    return [`${ammendedAlphabet.join('').toUpperCase()} \n ${alphabet.join('').toUpperCase()}`, solvedCode.toUpperCase()]
 }

@@ -109,9 +109,11 @@ export default function CipherSolver() {
         <div className={styles.container}>
             <div className={styles.title}>
                 <h1>Cipher Solver</h1>
+                <div><Link href="/" className="return">back home</Link></div>
             </div>
             <main className={styles.main}>
                 <div className={styles.left}>
+                    <h3>ANALYSIS</h3>
                     <div className={styles.analysis}>
                         <p>chi: {chi}</p>
                         <p>ioc: {ioc}</p>
@@ -125,6 +127,7 @@ export default function CipherSolver() {
                 </div>
                 
                 <div className={styles.center}>
+                    <h3>CODE</h3>
                     <div className={styles.inputCode}>
                         <form onSubmit={handleSubmit}>
                             <label>
@@ -139,12 +142,12 @@ export default function CipherSolver() {
                     </div>
                     <div className={styles.decodedText}>
                         <p>Decoded text:</p>
-                        <p>Key used: <br/>{keyUsed}</p>
                         <textarea className={styles.decodedInput} placeholder="decoded cipher here..." value={decoded} readOnly/>
                     </div>
                 </div>
 
                 <div className={styles.right}>
+                    <h3>OTHER</h3>
                     <div className={styles.cipherSelect}>
                         <select value={selectedCipher} onChange={handleCipherChange}>
                             <option value="caesar">caesar</option>
@@ -159,11 +162,9 @@ export default function CipherSolver() {
                             <option value="stats">stats</option>
                         </select>
                     </div>
+                    <div className={styles.keyUsed}>Key used:<br/>{keyUsed}</div>
                 </div>
             </main>
-            <footer className={styles.footer}>
-                <Link href="/" className="return">back home</Link>
-            </footer>
         </div>
     )
 }
