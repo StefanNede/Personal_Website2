@@ -13,15 +13,10 @@ const getCaesarScore = (text:string):number => {
             score--
         }
     }
-    
     return score
 }
 
 export const getCaesarDecode = (text:string):Array<any> => {
-    let usedUpper:boolean = false
-    if (text === text.toUpperCase()) {
-        usedUpper = true
-    } 
     text = text.toLowerCase()
     let key:number = 0
     let highestRating:number = -1
@@ -39,18 +34,13 @@ export const getCaesarDecode = (text:string):Array<any> => {
             res += char
         }
         let currentRating:number = getCaesarScore(res)
-        console.log(currentRating)
         if (currentRating > highestRating) {
             key = i
             highestRating = currentRating
             solvedCode = res
-            console.log(solvedCode)
         }
 
     }
     
-    if (usedUpper) {
-        solvedCode = solvedCode.toUpperCase()
-    }
-    return [key,solvedCode]
+    return [key,solvedCode.toUpperCase()]
 }

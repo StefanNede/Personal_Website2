@@ -79,6 +79,5 @@ export const getSubstitutionDecode = (text:string):Array<any> => {
             counter++
         }
     }
-    alert("done")
     return [`${key.join('').toUpperCase()} => ${alphabet.join('').toUpperCase()}`,deciphered.toUpperCase()];
 }

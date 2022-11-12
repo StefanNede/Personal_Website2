@@ -1,15 +1,17 @@
 import Link from "next/link"
 import styles from '../styles/Cipher.module.css'
 import React, { useEffect, useState } from "react"
+import LetterFrequencies from "./components/letterFrequencies"
 import { getChiSquared } from "./cipherSolver/chiSquared"
 import { getIoc } from "./cipherSolver/ioc"
 import { getCaesarDecode } from "./cipherSolver/caesar"
 import { getSubstitutionDecode } from "./cipherSolver/substitution"
 import { getAffineDecode } from "./cipherSolver/affine"
 import { getPolybiusDecode } from "./cipherSolver/polybius"
-import { getEntropy } from "./cipherSolver/entropy"
 import { getAtbashDecode } from "./cipherSolver/atbash"
 import { getAlbamDecode } from "./cipherSolver/albam"
+import { getFrequencies } from "./cipherSolver/chiSquared"
+import { formatString } from "./cipherSolver/formatString"
 
 export default function CipherSolver() {
     const [encoded, setEncoded] = useState("")
@@ -18,16 +20,16 @@ export default function CipherSolver() {
     const [keyUsed, setKeyUsed] = useState("")
     const [ioc, setIoc] = useState(0)
     const [chi, setChi] = useState(0) 
-    const [entropy, setEntropy] = useState(0)
+    const [frequencies, setFrequencies] = useState(new Map())
 
     useEffect(() => {
         setChi(getChiSquared(encoded))
         setIoc(getIoc(encoded))
-        setEntropy(getEntropy(encoded))
     }, [encoded])
     
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
+        setFrequencies(getFrequencies(formatString(encoded)))
         if (encoded.length < 1) {
             alert("no encoded text was entered")
         } else{
@@ -77,6 +79,10 @@ export default function CipherSolver() {
                     setDecoded(decodedText)
                     setKeyUsed(keyUsed) 
                     break
+                case "stats":
+                    setDecoded("")
+                    setKeyUsed("")
+                    break
                 case "unknown":
                     alert("It appears you do not know what cipher is used")
                     break
@@ -100,7 +106,7 @@ export default function CipherSolver() {
             <main className={styles.main}>
                 <p>chi: {chi}</p>
                 <p>ioc: {ioc}</p>
-                <p>entropy: {entropy}</p>
+                <LetterFrequencies frequ={frequencies}/>
                 <select value={selectedCipher} onChange={handleCipherChange}>
                     <option value="caesar">caesar</option>
                     <option value="affine">affine</option>
@@ -111,6 +117,7 @@ export default function CipherSolver() {
                     <option value="vigenere">vigenere</option>
                     <option value="railFence">rail fence</option>
                     <option value="unknown">unknown</option>
+                    <option value="stats">stats</option>
                 </select>
                 <form onSubmit={handleSubmit}>
                     <label>

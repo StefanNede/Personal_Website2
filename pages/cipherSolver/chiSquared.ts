@@ -1,5 +1,5 @@
 import { formatString } from "./formatString"
-const getFrequencies = (text:string):Map<string,number> => {
+export const getFrequencies = (text:string):Map<string,number> => {
     let resMap:Map<string, number> = new Map()
     for (let i:number=0;i<text.length;i++) {
         let cLook:string = text[i]
