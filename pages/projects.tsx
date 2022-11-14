@@ -12,7 +12,7 @@ export default function Projects() {
     let projectEls:Array<JSX.Element> = [];
 
     projectLinks.forEach((pLink, pName) => {
-        projectEls.push(<div className={styles.link}><a href={pLink} target="_blank">{pName}</a></div>)
+        projectEls.push(<div className={styles.link}><a href={pLink} target="_blank" rel="noopener noreferrer">{pName}</a></div>)
     })
     return (
         <div className={styles.container}>
