@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
-import { alphabet } from "../cipherSolver/alphabet"
-import styles from "../../styles/LetterFrequ.module.css"
+import { alphabet } from "../scripts/cipherSolver/alphabet"
+import styles from "../styles/LetterFrequ.module.css"
 
 interface Props {
     frequ: Map<string, number>
