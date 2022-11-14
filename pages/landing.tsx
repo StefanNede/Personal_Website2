@@ -15,6 +15,7 @@ export default function Landing() {
                     <ul>
                         <Link href= "/cipherSolver"><div className="nav_elements cipher_solver_link">cipher solver</div></Link>
                         <Link href="/calculator"><div className="nav_elements stats_calc_link">calculator</div></Link>
+                        <Link href="/codeEditor"><div className="nav_elements codeEditor_link">code editor</div></Link>
                         <Link href="/snakeGame"><div className="nav_elements project_link">snake game</div></Link>
                         <Link href="/draw"><div className="nav_elements project_link">draw</div></Link>
                         <Link href="/projects"><div className="nav_elements project_link">projects</div></Link>
