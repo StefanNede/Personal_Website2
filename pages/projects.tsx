@@ -1,6 +1,5 @@
 import Link from "next/link"
 import styles from "../styles/Projects.module.css"
-import githubLogo from "./assets/GitHub-Mark-Light-32px.png"
 
 export default function Projects() {
     const projectLinks:Map<string, string> = new Map([

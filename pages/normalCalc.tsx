@@ -1,7 +1,7 @@
 import {useState} from "react"
 import Link from "next/link"
 import styles from "../styles/NormalCalc.module.css"
-import {NumberPad} from "./components/numberPad"
+import {NumberPad} from "../components/numberPad"
 
 export default function NormalCalc() {
     const [count, setCount] = useState(0);
