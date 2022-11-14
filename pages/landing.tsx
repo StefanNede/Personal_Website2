@@ -10,7 +10,7 @@ export default function Landing() {
     return (
         <div className={styles.container}>
             <header className={styles.header}>
-                <h1>Stefan Nedelcu</h1>
+                <h1>neommm</h1>
                 <div className={styles.nav}>
                     <ul>
                         <Link href= "/cipherSolver"><div className="nav_elements cipher_solver_link">cipher solver</div></Link>
