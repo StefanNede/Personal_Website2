@@ -11,3 +11,16 @@
     border: 1px solid #dddddd;
     text-align: center;
 }
+
+/* responsive design yay */
+@media only screen and (max-width:1050px) {
+    .td, .th {
+        padding: 0.5rem 1rem;
+    }
+}
+
+@media only screen and (max-width:618px) {
+    .td, .th {
+        padding: 0.5rem 1rem;
+    }
+}
