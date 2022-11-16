@@ -1,0 +1,31 @@
+.container {
+    padding-left: 4vw;
+}
+
+.header {
+    display: flex;
+    width: 90vw;
+    justify-content: space-between;
+    margin-left:2.5vw;
+}
+
+.title {
+    min-height:10vh;
+}
+
+.title h1 {
+}
+
+.main {
+    min-height: 79vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.footer {
+    max-height: 5vh;
+}
+
+.canvas {
+}
