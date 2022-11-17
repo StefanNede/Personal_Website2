@@ -13,6 +13,7 @@ import { getAlbamDecode } from "../scripts/cipherSolver/albam"
 import { getFrequencies } from "../scripts/cipherSolver/chiSquared"
 import { formatString } from "../scripts/cipherSolver/formatString"
 import { getLikelyCipher } from "../scripts/cipherSolver/likelyCipher"
+import { getStats, getLongestSubstrings, getFactorsCommon } from "../scripts/cipherSolver/stats"
 
 export default function CipherSolver() {
     const [encoded, setEncoded] = useState("")
@@ -25,79 +26,115 @@ export default function CipherSolver() {
     const [textLength2, setTextLength2] = useState(0) 
     const [likelyCipher, setLikelyCipher] = useState("") 
     const [frequencies, setFrequencies] = useState(new Map())
+    const [buttonPressed, setButtonPressed] = useState(1);
 
     useEffect(() => {
         setChi(getChiSquared(encoded))
         setIoc(getIoc(encoded))
         setTextLength(encoded.length)
         setTextLength2(formatString(encoded).length)
-        setLikelyCipher(getLikelyCipher())
+        setLikelyCipher(getLikelyCipher(ioc, chi))
     }, [encoded])
     
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         setFrequencies(getFrequencies(formatString(encoded)))
-        if (encoded.length < 1) {
-            alert("no encoded text was entered")
-        } else{
-            let res:Array<any> = []
-            let decodedText:string = ''
-            let keyUsed:any = 0
-            switch (selectedCipher) {
-                case "caesar":
-                    res = getCaesarDecode(encoded)
-                    decodedText= res[1]
-                    keyUsed = res[0]
-                    setDecoded(decodedText)
-                    setKeyUsed(keyUsed) 
-                    break
-                case "substitution":
-                    res = getSubstitutionDecode(encoded)
-                    decodedText= res[1]
-                    keyUsed= res[0]
-                    setDecoded(decodedText)
-                    setKeyUsed(keyUsed) 
-                    break
-                case "affine":
-                    res = getAffineDecode(encoded)
-                    decodedText = res[1]
-                    keyUsed = res[0]
-                    setDecoded(decodedText)
-                    setKeyUsed(keyUsed) 
-                    break
-                case "atbash":
-                    res = getAtbashDecode(encoded)
-                    decodedText = res[1]
-                    keyUsed = res[0]
-                    setDecoded(decodedText)
-                    setKeyUsed(keyUsed) 
-                    break
-                case "albam":
-                    res = getAlbamDecode(encoded)
-                    decodedText = res[1]
-                    keyUsed = res[0]
-                    setDecoded(decodedText)
-                    setKeyUsed(keyUsed) 
-                    break
-                case "polybius":
-                    res = getPolybiusDecode(encoded)
-                    decodedText = res[1]
-                    keyUsed = res[0]
-                    setDecoded(decodedText)
-                    setKeyUsed(keyUsed) 
-                    break
-                case "stats":
-                    setDecoded("")
-                    setKeyUsed("")
-                    break
-                case "unknown":
-                    alert("It appears you do not know what cipher is used")
-                    break
-                default:
-                    alert("this website appears to be fucking dogshit")
+        setLikelyCipher(getLikelyCipher(ioc, chi))
+        if (buttonPressed === 1) {
+            if (encoded.length < 1) {
+                alert("no encoded text was entered")
+            } else{
+                let res:Array<any> = []
+                let decodedText:string = ''
+                let keyUsed:any = 0
+                switch (selectedCipher) {
+                    case "caesar":
+                        res = getCaesarDecode(encoded)
+                        decodedText= res[1]
+                        keyUsed = res[0]
+                        setDecoded(decodedText)
+                        setKeyUsed(keyUsed) 
+                        break
+                    case "substitution":
+                        res = getSubstitutionDecode(encoded)
+                        decodedText= res[1]
+                        keyUsed= res[0]
+                        setDecoded(decodedText)
+                        setKeyUsed(keyUsed) 
+                        break
+                    case "affine":
+                        res = getAffineDecode(encoded)
+                        decodedText = res[1]
+                        keyUsed = res[0]
+                        setDecoded(decodedText)
+                        setKeyUsed(keyUsed) 
+                        break
+                    case "atbash":
+                        res = getAtbashDecode(encoded)
+                        decodedText = res[1]
+                        keyUsed = res[0]
+                        setDecoded(decodedText)
+                        setKeyUsed(keyUsed) 
+                        break
+                    case "albam":
+                        res = getAlbamDecode(encoded)
+                        decodedText = res[1]
+                        keyUsed = res[0]
+                        setDecoded(decodedText)
+                        setKeyUsed(keyUsed) 
+                        break
+                    case "polybius":
+                        res = getPolybiusDecode(encoded)
+                        decodedText = res[1]
+                        keyUsed = res[0]
+                        setDecoded(decodedText)
+                        setKeyUsed(keyUsed) 
+                        break
+                    case "transRows":
+                        alert("this feature is not ready yet")
+                        break
+                    case "transCols":
+                        alert("this feature is not ready yet")
+                        break
+                    case "unknown":
+                        alert("It appears you do not know what cipher is used")
+                        break
+                    default:
+                        alert("this website appears to be fucking dogshit")
+                }
+                //console.log(`submitted encoded text is: ${encoded}\n`)
+                //console.log(`selected cipher is: ${selectedCipher}`)
             }
-            //console.log(`submitted encoded text is: ${encoded}\n`)
-            //console.log(`selected cipher is: ${selectedCipher}`)
+        } else if (buttonPressed === 2) {
+            if (encoded.length < 1) {
+                alert("no encoded text was entered")
+            } else {
+                let res:any[][] = getLongestSubstrings(encoded)
+                let resString:string = "Stats:\n"
+                let allGaps:number[] = [] // stores all the unique gaps between longest repeating substrings
+                let gapCounts:Map<number,number> = new Map() // to make sure we don't add duplicate gaps to allGaps
+                for (let r of res) {
+                    let substr = r[0]
+                    let length = r[1]
+                    let positions:number[] = r[2]
+                    let gaps:number[] = r[3]
+                    for (let gap of gaps) { 
+                        if (gapCounts.get(gap) === undefined) {
+                            allGaps.push(gap) 
+                            gapCounts.set(gap, 1)
+                        }
+                    }
+                    let positionsJoined:string = positions.join(', ')
+                    let gapsJoined:string = gaps.join(', ')
+                    resString += `\n${substr} \t ${length} chars \t positions: ${positionsJoined} \t gaps: ${gapsJoined}\n`
+                }
+                // factors common to unique gaps between longest repeating substrings
+                let factorsCommon = getFactorsCommon(allGaps)
+                resString += `\nFactors common to unique gaps between longest repeating substrings: \n${factorsCommon}\n`
+                resString += "\n(analysis section updated)"
+                setDecoded(resString)
+                setLikelyCipher(getLikelyCipher(ioc, chi))
+            }
         }
     }
 
@@ -137,7 +174,10 @@ export default function CipherSolver() {
                                     onChange={(e) => setEncoded(e.target.value)} />
                             </label>
                             <br />
-                            <input className={styles.submitBtn} type="submit" value="Submit" />
+                            <div className={styles.submitBtnsWrapper}>
+                                <input className={styles.submitBtn} type="submit" value="Decode" onClick = {() => {setButtonPressed(1)}} />
+                                <input className={styles.submitBtn} type="submit" value="Get Stats" onClick = {() => {setButtonPressed(2)}} />
+                            </div>
                         </form>
                     </div>
                     <div className={styles.decodedText}>
@@ -158,8 +198,9 @@ export default function CipherSolver() {
                             <option value="polybius">polybius</option>
                             <option value="vigenere">vigenere</option>
                             <option value="railFence">rail fence</option>
+                            <option value="transRows">extract transposition rows</option>
+                            <option value="transCols">extract transposition columns</option>
                             <option value="unknown">unknown</option>
-                            <option value="stats">stats</option>
                         </select>
                     </div>
                     <div className={styles.keyUsedWrapper}>Key used:<div className={styles.keyUsed}>{keyUsed}</div></div>

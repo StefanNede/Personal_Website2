@@ -100,12 +100,22 @@
     margin-bottom: 0;
 }
 
-.inputCode.submitBtn {
-    align-self: center;
+.submitBtn {
+    width:10rem;
+    box-shadow: 0px 0px 5px 2px rgb(62, 62, 62);
 }
 
 .submitBtn:hover {
     cursor:pointer;
+    box-shadow: 0px 0px 5px 4px rgb(62, 62, 62);
+}
+
+.submitBtnsWrapper {
+    height:100%;
+    width:100%;
+    display:flex;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 /* right side */
