@@ -139,12 +139,20 @@
 }
 
 .keyUsedWrapper {
-    margin-top:5vh;
+    margin-top:2.5vh;
     text-align: center;
 }
 
 .keyUsed {
     font-size: 0.9rem;
+}
+
+.speedPrecision {
+    margin-top: 2.5vh;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 /* responsive design yay */

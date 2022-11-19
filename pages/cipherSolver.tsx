@@ -26,7 +26,8 @@ export default function CipherSolver() {
     const [textLength2, setTextLength2] = useState(0) 
     const [likelyCipher, setLikelyCipher] = useState("") 
     const [frequencies, setFrequencies] = useState(new Map())
-    const [buttonPressed, setButtonPressed] = useState(1);
+    const [buttonPressed, setButtonPressed] = useState(1)
+    const [speedPrecision, setSpeedPrecision] = useState("speed")
 
     useEffect(() => {
         setChi(getChiSquared(encoded))
@@ -56,7 +57,7 @@ export default function CipherSolver() {
                         setKeyUsed(keyUsed) 
                         break
                     case "substitution":
-                        res = getSubstitutionDecode(encoded)
+                        res = getSubstitutionDecode(encoded, speedPrecision)
                         decodedText= res[1]
                         keyUsed= res[0]
                         setDecoded(decodedText)
@@ -89,6 +90,14 @@ export default function CipherSolver() {
                         keyUsed = res[0]
                         setDecoded(decodedText)
                         setKeyUsed(keyUsed) 
+                        break
+                    case "transpositionR":
+                        break
+                    case "transpositionC":
+                        break
+                    case "vigenere":
+                        break
+                    case "railFence":
                         break
                     case "transRows":
                         alert("this feature is not ready yet")
@@ -197,6 +206,8 @@ export default function CipherSolver() {
                             <option value="albam">albam</option>
                             <option value="substitution">substitution</option>
                             <option value="polybius">polybius</option>
+                            <option value="transpositionR">transposition (rows)</option>
+                            <option value="transpositionC">transposition (columns)</option>
                             <option value="vigenere">vigenere</option>
                             <option value="railFence">rail fence</option>
                             <option value="transRows">extract transposition rows</option>
@@ -204,6 +215,25 @@ export default function CipherSolver() {
                             <option value="unknown">unknown</option>
                         </select>
                     </div>
+                    <label className={styles.speedPrecision}>
+                        <div>
+                        <label htmlFor="myCheck">speed</label> 
+                        {(speedPrecision === "speed") ?
+                            <input type="radio" id="myCheck" checked={true} onClick={ () => {setSpeedPrecision("speed")}}/>
+                            :
+                            <input type="radio" id="myCheck" checked={false} onClick={ () => {setSpeedPrecision("speed")}}/>
+
+                        }
+                        </div>
+                        <div>
+                            <label htmlFor="myCheck">precision</label> 
+                            {(speedPrecision === "precision") ?
+                                <input type="radio" id="myCheck" checked={true} onClick={ () => {setSpeedPrecision("precision")}}/>
+                                :
+                                <input type="radio" id="myCheck" checked={false} onClick={ () => {setSpeedPrecision("precision")}}/>
+                            }
+                        </div>
+                    </label>
                     <div className={styles.keyUsedWrapper}>Key used:<div className={styles.keyUsed}>{keyUsed}</div></div>
                 </div>
             </main>

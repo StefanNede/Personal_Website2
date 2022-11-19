@@ -11,12 +11,16 @@ const getRandomNum = (min:number, max:number):number => {
     return Math.floor(Math.random() * (max+1 - min) + min);
 }
 
-const getFitness = (text:string):number => {
+const getFitness = (text:string, speedPrecision:string):number => {
     //let bFit:number = bigramFitness(text)
-    //let trFit:number = trigramFitness(text)
-    let teFit:number = tetragramFitness(text)
+    if (speedPrecision === "speed") {
+        let trFit:number = trigramFitness(text)
+        return trFit
+    } else {
+        let teFit:number = tetragramFitness(text)
+        return teFit
+    }
     //return ((bFit+teFit+trFit)/3)
-    return teFit
 }
 
 const getChildKey = (parentKey:Array<string>):Array<string> => {
@@ -56,11 +60,11 @@ const decipherText = (text:string, key:Array<string>):string => {
     return res
 }
 
-export const getSubstitutionDecode = (text:string):Array<any> => {
+export const getSubstitutionDecode = (text:string, speedPrecision:string):Array<any> => {
     text = text.toLowerCase()
     let key:Array<string> = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
     let deciphered:string = decipherText(text, key)
-    let fitness:number = getFitness(deciphered) 
+    let fitness:number = getFitness(deciphered, speedPrecision) 
     let counter:number = 0
     let upperBound:number = text.length
     if (upperBound > 10000) { upperBound = 10000}
@@ -69,7 +73,7 @@ export const getSubstitutionDecode = (text:string):Array<any> => {
         for (let k of key) { oldKey.push(k)}
         let childKey:Array<string> = getChildKey(oldKey)
         let deciphered2:string = decipherText(text, childKey)
-        let fitness2:number = getFitness(deciphered2)
+        let fitness2:number = getFitness(deciphered2, speedPrecision)
         if (fitness2 > fitness) {
             key = childKey
             deciphered = deciphered2
