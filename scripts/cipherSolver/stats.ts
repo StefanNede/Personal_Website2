@@ -121,19 +121,19 @@ export const getFactorsCommon = (gaps:number[]):number[] => {
                 if (gap%i === 0 && interFactors.get(i) === undefined) {
                     interFactors.set(i,1)
                     addToMap(individualFactors, i) 
+                    if (individualFactors.get(i) == numGaps) {
+                        // if individual factor has a count == to length of gaps this means they appear in all the gaps
+                        factors.push(i)
+                    }
                     if (gap/i !== i && interFactors.get(gap/i) === undefined) { 
                         interFactors.set(gap/i,1)
                         addToMap(individualFactors, gap/i)
+                        if (individualFactors.get(gap/i) == numGaps) {
+                            factors.push(gap/i)
+                        }
                     }
                 }
             }
-        }
-    }
-    // go over individual factors and check if they have a count >= to length of gaps
-    // as this mean that they appear in all the gaps
-    for (let [key, value] of individualFactors) {
-        if (value >= numGaps) {
-            factors.push(key)
         }
     }
     factors.sort() // uses insertion and merge sort to get O(nlogn) for time complexity
