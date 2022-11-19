@@ -1,10 +1,83 @@
+import { formatString } from "./formatString"
+
+const getMatrix = (length:number):number[][] => {
+    // for tabulation
+	let lrs = []
+	for (let i=0;i<length+1;i++) {
+		let inter = []
+		for (let j=0;j<length+1;j++) {
+			inter.push(0)
+		}
+		lrs.push(inter)
+	}
+	return lrs
+}
+
+const LRS = (str:string):any[][] => {
+    // non overlapping, repeating substrings
+    // return [substring, length, [appearance1, appearance2, appearance3...],  [gap1, gap2, gap3...]]
+
+	let stringLength:number = str.length
+	// holds all the repeating substrings above a length of 6
+    // because there are multiple appearances of each substring and we want to monitor this this should be a map
+	let substrings:Map<string, any[]> = new Map()
+
+	// creating the 2d matrix for tabulation
+	let lrs:number[][] = getMatrix(stringLength)
+
+	let index:number = 0 
+    // build from bottom up
+	for (let i=1;i<stringLength+1;i++) {
+		for (let j=i+1;j<stringLength+1;j++) {
+			if (str.charAt(i-1) === str.charAt(j-1) && lrs[i-1][j-1] < (j-i)) {
+				lrs[i][j] = 1 + lrs[i-1][j-1]
+				if (lrs[i][j] >= 6) {
+					let subIndex:number = Math.max(i, index)
+					let subLength:number = lrs[i][j]
+                    let appearance1:number = subIndex-subLength
+                    let appearance2:number = j-subLength
+					let sub:string = str.substring(subIndex-subLength, subIndex)
+                    let subArray:any[] = [sub, subLength, [appearance1, appearance2], [appearance2-appearance1]]
+                    if (substrings.get(sub) === undefined) {
+                        substrings.set(sub, subArray)
+                    } else {
+                        let prevSubArray:any[] = substrings.get(sub)!
+                        let compiledAppearances:number[] = [appearance1, appearance2]
+                        let compiledGaps:number[] = [appearance2-appearance1]
+                        // compile the appearances and the gaps
+                        for (let app of prevSubArray[2]) {
+                            if (!compiledAppearances.includes(app)) {
+                                compiledAppearances.push(app)
+                            }
+                        }
+                        for (let g of prevSubArray[3]) {
+                            if (!compiledGaps.includes(g)) {
+                                compiledGaps.push(g)
+                            }
+                        }
+                        compiledAppearances.sort((a,b) => a-b)
+                        compiledGaps.sort((a,b) => a-b)
+                        let compiledSubArray:any[] = [sub, subLength, compiledAppearances, compiledGaps]
+                        substrings.set(sub, compiledSubArray)
+                    }
+				}
+			} 
+			else {
+				lrs[i][j] = 0
+			}
+		}
+	}
+
+    return Array.from(substrings.values())
+}
+
 export const getLongestSubstrings = (text:string):any[][] => {
-    // if substring length is greater than 6 add to array
-    // in the array hold the length of the substring, it's locations in the 
-    // text and the gap between it's location in the text
-    let res:any[][] = []
-    let sampleRes:any[][] = [["hello", 5, [1, 10, 28, 55], [9, 18, 27]], ["hello", 5, [1, 10, 28, 55], [9, 18, 27]]]
-    return sampleRes
+    text = formatString(text)
+    text = text.toUpperCase()
+    let res:any[][] = LRS(text)
+    // sort res list by length of repeating substrings - highest at the start, and lowest at the end
+    res.sort((a,b) => b[1] - a[1])
+    return res 
 }
 
 // not using this function because I would've had to use another for loop 
@@ -68,8 +141,8 @@ export const getFactorsCommon = (gaps:number[]):number[] => {
 }
 
 export const getStats = (text:string) => {
-    /* get longest repeating substrings  
-     * get factors common to the gaps between substrings - for transposition ciphers
-     * display stats updated - check stats section
+    /* get longest repeating substrings - done 
+     * get factors common to the gaps between substrings - for transposition ciphers - done
+     * display stats updated - check stats section - done
      */
 }

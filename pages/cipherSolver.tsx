@@ -110,9 +110,10 @@ export default function CipherSolver() {
                 alert("no encoded text was entered")
             } else {
                 let res:any[][] = getLongestSubstrings(encoded)
-                let resString:string = "Stats:\n"
+                let resString:string = "STATS:\n"
                 let allGaps:number[] = [] // stores all the unique gaps between longest repeating substrings
                 let gapCounts:Map<number,number> = new Map() // to make sure we don't add duplicate gaps to allGaps
+                resString += "\nLongest repeating substrings:"
                 for (let r of res) {
                     let substr = r[0]
                     let length = r[1]
@@ -126,11 +127,11 @@ export default function CipherSolver() {
                     }
                     let positionsJoined:string = positions.join(', ')
                     let gapsJoined:string = gaps.join(', ')
-                    resString += `\n${substr} \t ${length} chars \t positions: ${positionsJoined} \t gaps: ${gapsJoined}\n`
+                    resString += `\n${substr}  \t ${length} chars \t positions: ${positionsJoined}    \t gaps: ${gapsJoined}`
                 }
                 // factors common to unique gaps between longest repeating substrings
                 let factorsCommon = getFactorsCommon(allGaps)
-                resString += `\nFactors common to unique gaps between longest repeating substrings: \n${factorsCommon}\n`
+                resString += `\n\nFactors common to unique gaps between longest repeating substrings: \n${factorsCommon}\n`
                 resString += "\n(analysis section updated)"
                 setDecoded(resString)
                 setLikelyCipher(getLikelyCipher(ioc, chi))
