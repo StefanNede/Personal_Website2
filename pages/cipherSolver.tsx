@@ -19,7 +19,7 @@ export default function CipherSolver() {
     const [encoded, setEncoded] = useState("")
     const [decoded, setDecoded] = useState("")
     const [selectedCipher, setSelectedCipher] = useState("caesar")
-    const [keyUsed, setKeyUsed] = useState("")
+    const [keyUsed, setKeyUsed] = useState<string | JSX.Element[]>("")
     const [ioc, setIoc] = useState(0)
     const [chi, setChi] = useState(0) 
     const [textLength, setTextLength] = useState(0) 
@@ -84,13 +84,6 @@ export default function CipherSolver() {
                         setDecoded(decodedText)
                         setKeyUsed(keyUsed) 
                         break
-                    case "polybius":
-                        res = getPolybiusDecode(encoded)
-                        decodedText = res[1]
-                        keyUsed = res[0]
-                        setDecoded(decodedText)
-                        setKeyUsed(keyUsed) 
-                        break
                     case "transpositionR":
                         break
                     case "transpositionC":
@@ -104,6 +97,17 @@ export default function CipherSolver() {
                         break
                     case "transCols":
                         alert("this feature is not ready yet")
+                        break
+                    case "polybius":
+                        res = getPolybiusDecode(encoded, speedPrecision)
+                        decodedText = res[1]
+                        keyUsed = res[0]
+                        let resKeyEls:JSX.Element[] = []
+                        for (let key of keyUsed) {
+                            resKeyEls.push(<div>{key}</div>)
+                        }
+                        setDecoded(decodedText)
+                        setKeyUsed(resKeyEls)
                         break
                     case "unknown":
                         alert("It appears you do not know what cipher is used")
@@ -205,13 +209,13 @@ export default function CipherSolver() {
                             <option value="atbash">atbash</option>
                             <option value="albam">albam</option>
                             <option value="substitution">substitution</option>
-                            <option value="polybius">polybius</option>
                             <option value="transpositionR">transposition (rows)</option>
                             <option value="transpositionC">transposition (columns)</option>
                             <option value="vigenere">vigenere</option>
                             <option value="railFence">rail fence</option>
                             <option value="transRows">extract transposition rows</option>
                             <option value="transCols">extract transposition columns</option>
+                            <option value="polybius">polybius</option>
                             <option value="unknown">unknown</option>
                         </select>
                     </div>
@@ -219,18 +223,18 @@ export default function CipherSolver() {
                         <div>
                         <label htmlFor="myCheck">speed</label> 
                         {(speedPrecision === "speed") ?
-                            <input type="radio" id="myCheck" checked={true} onClick={ () => {setSpeedPrecision("speed")}}/>
+                            <input type="radio" id="myCheck" checked={true} onChange={ () => {setSpeedPrecision("speed")}}/>
                             :
-                            <input type="radio" id="myCheck" checked={false} onClick={ () => {setSpeedPrecision("speed")}}/>
+                            <input type="radio" id="myCheck" checked={false} onChange={ () => {setSpeedPrecision("speed")}}/>
 
                         }
                         </div>
                         <div>
                             <label htmlFor="myCheck">precision</label> 
                             {(speedPrecision === "precision") ?
-                                <input type="radio" id="myCheck" checked={true} onClick={ () => {setSpeedPrecision("precision")}}/>
+                                <input type="radio" id="myCheck" checked={true} onChange={ () => {setSpeedPrecision("precision")}}/>
                                 :
-                                <input type="radio" id="myCheck" checked={false} onClick={ () => {setSpeedPrecision("precision")}}/>
+                                <input type="radio" id="myCheck" checked={false} onChange={ () => {setSpeedPrecision("precision")}}/>
                             }
                         </div>
                     </label>

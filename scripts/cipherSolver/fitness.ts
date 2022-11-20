@@ -6,7 +6,7 @@ import {tetragrams} from "./data/tetragrams"
 const getBigrams = (text:string):Map<string, number> => {
     text = formatString(text)
     let bigras:Map<string,number> = new Map()
-    for (let i=0;i<text.length-2;i++) {
+    for (let i=0;i<text.length-1;i++) {
         let bigra:string = text.substring(i,i+2)
         if (bigras.has(bigra)) {
             bigras.set(bigra, bigras.get(bigra)!+1)
@@ -35,7 +35,7 @@ export const bigramFitness = (text:string):number => {
 const getTrigrams = (text:string):Map<string, number> => {
     text = formatString(text)
     let titras:Map<string,number> = new Map()
-    for (let i=0;i<text.length-3;i++) {
+    for (let i=0;i<text.length-2;i++) {
         let titra:string = text.substring(i,i+3)
         if (titras.has(titra)) {
             titras.set(titra, titras.get(titra)!+1)
@@ -64,7 +64,7 @@ export const trigramFitness = (text:string):number => {
 const getTetragrams = (text:string):Map<string, number> => {
     text = formatString(text)
     let tetras:Map<string,number> = new Map()
-    for (let i=0;i<text.length-4;i++) {
+    for (let i=0;i<text.length-3;i++) {
         let tetra:string = text.substring(i,i+4)
         if (tetras.has(tetra)) {
             tetras.set(tetra, tetras.get(tetra)!+1)
