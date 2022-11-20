@@ -14,6 +14,7 @@ import { getFrequencies } from "../scripts/cipherSolver/chiSquared"
 import { formatString } from "../scripts/cipherSolver/formatString"
 import { getLikelyCipher } from "../scripts/cipherSolver/likelyCipher"
 import { getStats, getLongestSubstrings, getFactorsCommon } from "../scripts/cipherSolver/stats"
+import { getVigenereDecode } from "../scripts/cipherSolver/vigenere"
 
 export default function CipherSolver() {
     const [encoded, setEncoded] = useState("")
@@ -89,6 +90,11 @@ export default function CipherSolver() {
                     case "transpositionC":
                         break
                     case "vigenere":
+                        res = getVigenereDecode(encoded)
+                        decodedText = res[1]
+                        keyUsed = res[0]
+                        setDecoded(decodedText)
+                        setKeyUsed(keyUsed)
                         break
                     case "railFence":
                         break
