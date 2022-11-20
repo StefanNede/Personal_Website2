@@ -3,6 +3,7 @@ import { alphabet } from "./alphabet"
 import { getLongestSubstrings, getFactorsCommon } from "./stats"
 import { trigramFitness } from "./fitness"
 import { formatString } from "./formatString"
+import { getIoc } from "./ioc"
 
 const getPeriodLRS = (text:string):number[] => {
     let lrs:any[][] = getLongestSubstrings(text)
@@ -22,18 +23,10 @@ const getPeriodLRS = (text:string):number[] => {
     return periods
 }
 
-const getPeriodTwist = (text:string):number => {
-    // uses the twist method published by Barr and Simoson in 2015
-    return 0
-}
-
-const applyPeriod = (text:string, period:number):string => {
-    let decoded:string = ""
+const getColumns = (text:string, period:number):string[] => {
     let columns:string[] = []
-    let resColumns:string[] = []
     for (let k=0;k<period;k++) {
         columns.push("")
-        resColumns.push("")
     }
 
     text = formatString(text)
@@ -49,6 +42,59 @@ const applyPeriod = (text:string, period:number):string => {
             columns[j] += row[j]
         }
     }
+    return columns
+}
+
+const getPeriodIOC = (text:string):number => {
+    // for a period n get the iocs of all the columns and average them
+    // make a note of the greatest average ioc, and the period used for it 
+    // repeat for values of n until you get another average ioc that is similar
+    // to the greatest one - check if the first period that got that ioc is a factor of
+    // the one you just tested, in which case the first period is likely to be the correct one
+    let bestIOC:number = 0
+    let bestPeriod:number = 0
+    let currentPeriod = 2
+    while (currentPeriod <= 100) {
+        let columns:string[] = getColumns(text, currentPeriod)
+        let iocSum = 0
+        let iocCount = 0
+        let averageIOC = 0
+        for (let column of columns) {
+            let columnIOC = getIoc(column)
+            iocSum += columnIOC
+            iocCount++
+        }
+        averageIOC = iocSum/iocCount
+        // check if averageIOC close to bestIOC
+        if (Math.abs(bestIOC-averageIOC) <= 0.1 && currentPeriod%bestPeriod === 0) {
+            break
+        }
+        else if (averageIOC > bestIOC) {
+            bestIOC = averageIOC
+            bestPeriod = currentPeriod
+        }
+
+        currentPeriod++
+    }
+
+    return bestPeriod
+}
+
+const applyPeriod = (text:string, period:number):string => {
+    let decoded:string = ""
+    let columns:string[] = []
+    let resColumns:string[] = []
+    for (let k=0;k<period;k++) {
+        resColumns.push("")
+    }
+
+    text = formatString(text)
+    let interText:string = text
+    while (interText.length%period !== 0) {
+        interText += " "
+    }
+
+    columns = getColumns(text, period)
 
     // apply caesar shift
     for (let j=0;j<columns.length;j++) {
@@ -75,6 +121,8 @@ export const getVigenereDecode = (text:string):any[] => {
     let periods:number[] = getPeriodLRS(text)
     if (periods.length === 0) {
         // we need to use another technique to find the period
+        period = getPeriodIOC(text)
+        decoded = applyPeriod(text, period)
     } else {
         let bestPeriod:number = periods[0]
         let bestDecoded:string = ""
