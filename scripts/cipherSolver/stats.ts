@@ -140,7 +140,7 @@ export const getFactorsCommon = (gaps:number[]):number[] => {
             }
         }
     }
-    factors.sort() // uses insertion and merge sort to get O(nlogn) for time complexity
+    factors.sort((a,b) => a-b) // uses insertion and merge sort to get O(nlogn) for time complexity
     return factors
 }
 

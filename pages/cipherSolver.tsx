@@ -15,6 +15,7 @@ import { formatString } from "../scripts/cipherSolver/formatString"
 import { getLikelyCipher } from "../scripts/cipherSolver/likelyCipher"
 import { getStats, getLongestSubstrings, getFactorsCommon } from "../scripts/cipherSolver/stats"
 import { getVigenereDecode } from "../scripts/cipherSolver/vigenere"
+import { getTransSimpleDecode } from "../scripts/cipherSolver/transSimple"
 
 export default function CipherSolver() {
     const [encoded, setEncoded] = useState("")
@@ -85,7 +86,12 @@ export default function CipherSolver() {
                         setDecoded(decodedText)
                         setKeyUsed(keyUsed) 
                         break
-                    case "transpositionR":
+                    case "transpositionS":
+                        res = getTransSimpleDecode(encoded)
+                        decodedText = res[1]
+                        keyUsed = res[0]
+                        setDecoded(decodedText)
+                        setKeyUsed(keyUsed)
                         break
                     case "transpositionC":
                         break
@@ -215,7 +221,7 @@ export default function CipherSolver() {
                             <option value="atbash">atbash</option>
                             <option value="albam">albam</option>
                             <option value="substitution">substitution</option>
-                            <option value="transpositionR">transposition (rows)</option>
+                            <option value="transpositionS">transposition (simple)</option>
                             <option value="transpositionC">transposition (columns)</option>
                             <option value="vigenere">vigenere</option>
                             <option value="railFence">rail fence</option>
