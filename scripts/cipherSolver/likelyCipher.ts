@@ -5,7 +5,7 @@ export const getLikelyCipher = (ioc:number, chi:number):string => {
     if (Math.abs(ioc-englishIoc) < 0.2) {
         likelyCipher = "Transposition, Caesar, Affine, Substitution" 
     } else if (Math.abs(ioc-randomIoc) < 0.2) {
-        likelyCipher = "Vigenere"
+        likelyCipher = "Vigenere/Beaufort"
     } else {
         likelyCipher = "unknown"
     }
