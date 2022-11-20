@@ -1,4 +1,5 @@
 import { getCaesarDecode } from "./caesar"
+import { getAtbashDecode } from "./atbash"
 import { alphabet } from "./alphabet"
 import { getLongestSubstrings, getFactorsCommon } from "./stats"
 import { trigramFitness } from "./fitness"
@@ -66,7 +67,7 @@ const getPeriodIOC = (text:string):number => {
         }
         averageIOC = iocSum/iocCount
         // check if averageIOC close to bestIOC
-        if (Math.abs(bestIOC-averageIOC) <= 0.1 && currentPeriod%bestPeriod === 0) {
+        if (Math.abs(bestIOC-averageIOC) <= 0.1 && currentPeriod%bestPeriod === 0 && currentPeriod>=10) {
             break
         }
         else if (averageIOC > bestIOC) {
@@ -122,6 +123,7 @@ export const getVigenereDecode = (text:string):any[] => {
     if (periods.length === 0) {
         // we need to use another technique to find the period
         period = getPeriodIOC(text)
+        console.log(period)
         decoded = applyPeriod(text, period)
     } else {
         let bestPeriod:number = periods[0]

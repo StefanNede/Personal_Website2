@@ -14,6 +14,10 @@ const getMatrix = (length:number):number[][] => {
 }
 
 const LRS = (str:string):any[][] => {
+    // to get a lower bound for this (e.g. show substrings with length from lower bound upwards)
+    // run dp LRS to get the longest one and set lower bound to its length -4
+
+
     // non overlapping, repeating substrings
     // return [substring, length, [appearance1, appearance2, appearance3...],  [gap1, gap2, gap3...]]
 
