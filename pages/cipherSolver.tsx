@@ -19,6 +19,7 @@ import { getTransSimpleDecode } from "../scripts/cipherSolver/transSimple"
 import { decodeMorse } from "../scripts/cipherSolver/morse"
 import { decodeWigWag } from "../scripts/cipherSolver/wigwag"
 import { getRailfenceDecode } from "../scripts/cipherSolver/railFence"
+import { getBeaufortDecode } from "../scripts/cipherSolver/beaufort"
 
 export default function CipherSolver() {
     const [encoded, setEncoded] = useState("")
@@ -100,6 +101,13 @@ export default function CipherSolver() {
                         break
                     case "vigenere":
                         res = getVigenereDecode(encoded)
+                        decodedText = res[1]
+                        keyUsed = res[0]
+                        setDecoded(decodedText)
+                        setKeyUsed(keyUsed)
+                        break
+                    case "beaufort":
+                        res = getBeaufortDecode(encoded)
                         decodedText = res[1]
                         keyUsed = res[0]
                         setDecoded(decodedText)
@@ -242,6 +250,7 @@ export default function CipherSolver() {
                             <option value="transpositionS">transposition (simple)</option>
                             <option value="transpositionC">transposition (columns)</option>
                             <option value="vigenere">vigenere</option>
+                            <option value="beaufort">beaufort</option>
                             <option value="railFence">rail fence</option>
                             <option value="transRows">extract transposition rows</option>
                             <option value="transCols">extract transposition columns</option>
