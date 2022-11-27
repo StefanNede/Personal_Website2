@@ -34,6 +34,7 @@ export default function CipherSolver() {
     const [frequencies, setFrequencies] = useState(new Map())
     const [buttonPressed, setButtonPressed] = useState(1)
     const [speedPrecision, setSpeedPrecision] = useState("speed")
+    const [copied, setCopied] = useState("copy")
 
     useEffect(() => {
         setChi(getChiSquared(encoded))
@@ -45,6 +46,7 @@ export default function CipherSolver() {
     
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
+        setCopied("copy")
         setFrequencies(getFrequencies(formatString(encoded)))
         setLikelyCipher(getLikelyCipher(ioc, chi))
         if (buttonPressed === 1) {
@@ -194,6 +196,11 @@ export default function CipherSolver() {
         setSelectedCipher(event.target.value)
     }
 
+    const copyToClipboard = () => {
+        navigator.clipboard.writeText(decoded)
+        setCopied("copied")
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.title}>
@@ -279,7 +286,15 @@ export default function CipherSolver() {
                             }
                         </div>
                     </label>
+                    <div className={styles.copyToClip}>
+                        <button onClick = {() => copyToClipboard()}>
+                            {copied}
+                        </button>
+                    </div>
                     <div className={styles.keyUsedWrapper}>Key used:<div className={styles.keyUsed}>{keyUsed}</div></div>
+                    <div className={styles.notesWrapper}>
+                            <textarea className={styles.notes} placeholder = "write notes here..."></textarea>
+                    </div>
                 </div>
             </main>
         </div>

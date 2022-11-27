@@ -155,6 +155,23 @@
     justify-content: center;
 }
 
+.copyToClip {
+    border-radius: 10%;
+    padding-top:2.5vh;
+}
+
+.notesWrapper {
+    padding-top:2.5vh;
+    width: 100%;
+}
+
+.notes {
+    width:100%;
+    min-height:50vh;
+    font-size: 0.7rem;
+    resize: none;
+}
+
 /* responsive design yay */
 @media only screen and (max-width:1050px) {
      /* code at top
@@ -212,6 +229,14 @@
         text-align: center;
         background-color: rgb(72, 72, 72);
         padding: 0.75rem 0rem;
+    }
+
+    .notesWrapper {
+        width:80vw;
+    }
+
+    .notes {
+        height:20vh;
     }
 }
  @media only screen and (max-width:618px) {
