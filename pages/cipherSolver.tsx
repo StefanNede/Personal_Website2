@@ -16,6 +16,9 @@ import { getLikelyCipher } from "../scripts/cipherSolver/likelyCipher"
 import { getStats, getLongestSubstrings, getFactorsCommon } from "../scripts/cipherSolver/stats"
 import { getVigenereDecode } from "../scripts/cipherSolver/vigenere"
 import { getTransSimpleDecode } from "../scripts/cipherSolver/transSimple"
+import { decodeMorse } from "../scripts/cipherSolver/morse"
+import { decodeWigWag } from "../scripts/cipherSolver/wigwag"
+import { getRailfenceDecode } from "../scripts/cipherSolver/railFence"
 
 export default function CipherSolver() {
     const [encoded, setEncoded] = useState("")
@@ -103,6 +106,11 @@ export default function CipherSolver() {
                         setKeyUsed(keyUsed)
                         break
                     case "railFence":
+                        res = getRailfenceDecode(encoded)
+                        decodedText = res[1]
+                        keyUsed = res[0]
+                        setDecoded(decodedText)
+                        setKeyUsed(keyUsed)
                         break
                     case "transRows":
                         alert("this feature is not ready yet")
@@ -120,6 +128,16 @@ export default function CipherSolver() {
                         }
                         setDecoded(decodedText)
                         setKeyUsed(resKeyEls)
+                        break
+                    case "morse":
+                        res = decodeMorse(encoded)
+                        decodedText = res[1]
+                        setDecoded(decodedText)
+                        break
+                    case "wigwag":
+                        res = decodeWigWag(encoded)
+                        decodedText = res[1]
+                        setDecoded(decodedText)
                         break
                     case "unknown":
                         alert("It appears you do not know what cipher is used")
@@ -228,6 +246,8 @@ export default function CipherSolver() {
                             <option value="transRows">extract transposition rows</option>
                             <option value="transCols">extract transposition columns</option>
                             <option value="polybius">polybius</option>
+                            <option value="morse">morse</option>
+                            <option value="wigwag">wig wag - flag signals</option>
                             <option value="unknown">unknown</option>
                         </select>
                     </div>

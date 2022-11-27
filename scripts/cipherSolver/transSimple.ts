@@ -125,6 +125,14 @@ const performHillClimbing = (text:string, period:number):any[] => {
     return [decoded, bestFitness, parentKey]
 }
 
+const performBigramDecode = (text:string, period:number):any[] => {
+    let decoded:string = ""
+    let bestFitness:number = trigramFitness(text)
+    let key:number[] = []
+
+    return [decoded, key]
+}
+
 export const getTransSimpleDecode = (text:string):any[] => {
     // using hill climbing attack
     // with transposition ciphers it is easy to get trapped in a local maximum fitness
@@ -140,27 +148,16 @@ export const getTransSimpleDecode = (text:string):any[] => {
         // we need to use another technique to find the period
         period = getPeriodIOC(text)
         text = padText(text, period)
-        let [interDecoded, periodFitness, keyUsed] = performHillClimbing(text, period) // get best option with current period
+        let [interDecoded, keyUsed] = performBigramDecode(text, period) // get best option with current period
         decoded = interDecoded
         key = keyUsed
     } else {
-        let bestPeriod:number = 0
-        let bestDecoded:string = ""
-        let bestFitness:number = trigramFitness(text) 
-        let bestKeyUsed:number[] = []
-        for (let period of periods) {
-            text = padText(text, period)
-            let [interDecoded, periodFitness, keyUsed] = performHillClimbing(text, period) // get best option with current period
-            if (periodFitness > bestFitness) {
-                bestPeriod = period
-                bestDecoded = interDecoded
-                bestFitness = periodFitness
-                bestKeyUsed = keyUsed
-            }
-        }
-        period = bestPeriod
-        decoded = bestDecoded 
-        key = bestKeyUsed
+        period = periods[periods.length - 1]
+        text = padText(text, period)
+        let [interDecoded, keyUsed] = performBigramDecode(text, period) // get best option with current period
+        period = period
+        decoded = interDecoded
+        key = keyUsed
     }
 
     return [`Period of ${period} (${key})`, decoded.toUpperCase()]
