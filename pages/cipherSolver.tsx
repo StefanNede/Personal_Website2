@@ -42,14 +42,14 @@ export default function CipherSolver() {
         setIoc(getIoc(encoded))
         setTextLength(encoded.length)
         setTextLength2(formatString(encoded).length)
-        setLikelyCipher(getLikelyCipher(ioc, chi))
+        setLikelyCipher(getLikelyCipher(ioc, chi, encoded))
     }, [encoded])
     
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         setCopied("copy")
         setFrequencies(getFrequencies(formatString(encoded)))
-        setLikelyCipher(getLikelyCipher(ioc, chi))
+        setLikelyCipher(getLikelyCipher(ioc, chi, encoded))
         if (buttonPressed === 1) {
             if (encoded.length < 1) {
                 alert("no encoded text was entered")
@@ -195,7 +195,7 @@ export default function CipherSolver() {
                 resString += `\n\nFactors common to unique gaps between longest repeating substrings: \n${factorsCommon}\n`
                 resString += "\n(analysis section updated)"
                 setDecoded(resString)
-                setLikelyCipher(getLikelyCipher(ioc, chi))
+                setLikelyCipher(getLikelyCipher(ioc, chi, encoded))
             }
         }
     }
