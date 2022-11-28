@@ -20,6 +20,7 @@ import { decodeMorse } from "../scripts/cipherSolver/morse"
 import { decodeWigWag } from "../scripts/cipherSolver/wigwag"
 import { getRailfenceDecode } from "../scripts/cipherSolver/railFence"
 import { getBeaufortDecode } from "../scripts/cipherSolver/beaufort"
+import { decodeBaconian } from "../scripts/cipherSolver/baconian"
 
 export default function CipherSolver() {
     const [encoded, setEncoded] = useState("")
@@ -138,6 +139,13 @@ export default function CipherSolver() {
                         }
                         setDecoded(decodedText)
                         setKeyUsed(resKeyEls)
+                        break
+                    case "baconian":
+                        res = decodeBaconian(encoded)
+                        decodedText = res[1]
+                        keyUsed = res[0]
+                        setDecoded(decodedText)
+                        setKeyUsed(keyUsed)
                         break
                     case "morse":
                         res = decodeMorse(encoded)
@@ -262,6 +270,7 @@ export default function CipherSolver() {
                             <option value="transRows">extract transposition rows</option>
                             <option value="transCols">extract transposition columns</option>
                             <option value="polybius">polybius</option>
+                            <option value="baconian">baconian</option>
                             <option value="morse">morse</option>
                             <option value="wigwag">wig wag - flag signals</option>
                             <option value="unknown">unknown</option>
