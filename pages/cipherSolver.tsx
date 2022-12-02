@@ -201,8 +201,14 @@ export default function CipherSolver() {
             if (encoded.length < 1) {
                 alert("no encoded text was entered")
             } else {
-                let res:any[][] = getLongestSubstrings(encoded)
                 let resString:string = "STATS:\n"
+                let wholeLengthFactors:number[] = getFactorsCommon([textLength])
+                wholeLengthFactors.push(textLength)
+                resString += `\nFactors of ${textLength}: ${wholeLengthFactors}`
+                let lengthFactors:number[] = getFactorsCommon([textLength2])
+                lengthFactors.push(textLength2)
+                resString += `\nFactors of ${textLength2}: ${lengthFactors}\n`
+                let res:any[][] = getLongestSubstrings(encoded)
                 let allGaps:number[] = [] // stores all the unique gaps between longest repeating substrings
                 let gapCounts:Map<number,number> = new Map() // to make sure we don't add duplicate gaps to allGaps
                 resString += "\nLongest repeating substrings:"
