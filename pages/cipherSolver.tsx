@@ -197,6 +197,8 @@ export default function CipherSolver() {
                 setDecoded(resString)
                 setLikelyCipher(getLikelyCipher(ioc, chi, encoded))
             }
+        } else {
+            return
         }
     }
 
@@ -207,6 +209,15 @@ export default function CipherSolver() {
     const copyToClipboard = () => {
         navigator.clipboard.writeText(decoded)
         setCopied("copied")
+    }
+
+    const reverseEncoded = () => {
+        setButtonPressed(3)
+        let reversed:string = ""
+        for (let i = encoded.length-1; i>=0;i--) {
+            reversed += encoded.charAt(i)
+        }
+        setEncoded(reversed)
     }
 
     return (
@@ -244,6 +255,7 @@ export default function CipherSolver() {
                             <div className={styles.submitBtnsWrapper}>
                                 <input className={styles.submitBtn} type="submit" value="Decode" onClick = {() => {setButtonPressed(1)}} />
                                 <input className={styles.submitBtn} type="submit" value="Get Stats" onClick = {() => {setButtonPressed(2)}} />
+                                <input className={styles.submitBtn} type="submit" value="Reverse" onClick = {() => {reverseEncoded()}} />
                             </div>
                         </form>
                     </div>
