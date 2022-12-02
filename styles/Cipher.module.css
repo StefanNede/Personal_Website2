@@ -172,6 +172,24 @@
     resize: none;
 }
 
+.rowLength {
+    padding-top: 2.5vh;
+}
+
+.rowLength label {
+    font-size: 0.9rem;
+    display:flex;
+    align-items: center;
+}
+
+.rowLengthInput {
+    margin-left: 1vw;
+    text-align: center;
+    height:2rem;
+    max-width:5vw;
+    resize:none;
+}
+
 /* responsive design yay */
 @media only screen and (max-width:1050px) {
      /* code at top

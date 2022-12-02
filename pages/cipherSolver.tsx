@@ -21,6 +21,7 @@ import { decodeWigWag } from "../scripts/cipherSolver/wigwag"
 import { getRailfenceDecode } from "../scripts/cipherSolver/railFence"
 import { getBeaufortDecode } from "../scripts/cipherSolver/beaufort"
 import { decodeBaconian } from "../scripts/cipherSolver/baconian"
+import { getRows, getColumns } from "../scripts/cipherSolver/transData"
 
 export default function CipherSolver() {
     const [encoded, setEncoded] = useState("")
@@ -36,6 +37,8 @@ export default function CipherSolver() {
     const [buttonPressed, setButtonPressed] = useState(1)
     const [speedPrecision, setSpeedPrecision] = useState("speed")
     const [copied, setCopied] = useState("copy")
+    const [rowLength, setRowLength] = useState("") 
+    const numbers:string = "0123456789"
 
     useEffect(() => {
         setChi(getChiSquared(encoded))
@@ -44,7 +47,17 @@ export default function CipherSolver() {
         setTextLength2(formatString(encoded).length)
         setLikelyCipher(getLikelyCipher(ioc, chi, encoded))
     }, [encoded])
-    
+
+    const justNumbers = (text:string):boolean => {
+        for (let letter of text) {
+            if (!numbers.includes(letter)) {
+                alert("only numbers must be entered")
+                return false
+            }
+        }
+        return true
+    }
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         setCopied("copy")
@@ -124,10 +137,28 @@ export default function CipherSolver() {
                         setKeyUsed(keyUsed)
                         break
                     case "transRows":
-                        alert("this feature is not ready yet")
+                        if (!justNumbers(rowLength)) {
+                            break
+                        }
+                        let rows:string[] = getRows(encoded, parseInt(rowLength))
+                        let rowsFormatted:string = ""
+                        for (let row of rows) {
+                            rowsFormatted += row + "\n"
+                        }
+                        setDecoded(rowsFormatted)
+                        setKeyUsed(`rows of length ${rowLength}`)
                         break
                     case "transCols":
-                        alert("this feature is not ready yet")
+                        if (!justNumbers(rowLength)) {
+                            break
+                        }
+                        let columns:string[] = getColumns(encoded, parseInt(rowLength))
+                        let columnsFormatted:string = ""
+                        for (let column of columns) {
+                            columnsFormatted += column + "\n"
+                        }
+                        setDecoded(columnsFormatted)
+                        setKeyUsed(`rows of length ${rowLength}`)
                         break
                     case "polybius":
                         res = getPolybiusDecode(encoded, speedPrecision)
@@ -307,6 +338,13 @@ export default function CipherSolver() {
                             }
                         </div>
                     </label>
+                    <div className={styles.rowLength}>
+                        <label>
+                            Row Length:
+                            <textarea className={styles.rowLengthInput} value={rowLength} 
+                                onChange={(e) => setRowLength(e.target.value)} />
+                        </label>
+                    </div>
                     <div className={styles.copyToClip}>
                         <button onClick = {() => copyToClipboard()}>
                             {copied}
