@@ -22,6 +22,7 @@ import { getRailfenceDecode } from "../scripts/cipherSolver/railFence"
 import { getBeaufortDecode } from "../scripts/cipherSolver/beaufort"
 import { decodeBaconian } from "../scripts/cipherSolver/baconian"
 import { getRows, getColumns } from "../scripts/cipherSolver/transData"
+import { getTransColumnDecode } from "../scripts/cipherSolver/transColumn"
 
 export default function CipherSolver() {
     const [encoded, setEncoded] = useState("")
@@ -114,6 +115,11 @@ export default function CipherSolver() {
                         setKeyUsed(keyUsed)
                         break
                     case "transpositionC":
+                        res = getTransColumnDecode(encoded)
+                        decodedText = res[1]
+                        keyUsed = res[0]
+                        setDecoded(decodedText)
+                        setKeyUsed(keyUsed)
                         break
                     case "vigenere":
                         res = getVigenereDecode(encoded)
@@ -350,6 +356,9 @@ export default function CipherSolver() {
                             <textarea className={styles.rowLengthInput} value={rowLength} 
                                 onChange={(e) => setRowLength(e.target.value)} />
                         </label>
+                    </div>
+                    <div className={styles.doubleTransLink}>
+                        <a href="https://www.boxentriq.com/code-breaking/double-transposition-cipher" target="_blank" rel="noopener noreferrer">double column transposition</a>
                     </div>
                     <div className={styles.copyToClip}>
                         <button onClick = {() => copyToClipboard()}>

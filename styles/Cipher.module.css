@@ -190,6 +190,13 @@
     resize:none;
 }
 
+.doubleTransLink {
+    padding-top: 2.5vh;
+}
+.doubleTransLink a:hover {
+    text-decoration: underline;
+}
+
 /* responsive design yay */
 @media only screen and (max-width:1050px) {
      /* code at top
