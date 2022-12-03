@@ -1,6 +1,7 @@
 import { formatString } from "./formatString"
-import { tetragramFitness, trigramFitness } from "./fitness"
+import { tetragramFitness, trigramFitness, bigramFitness } from "./fitness"
 import { getPeriodIOC, getPeriodLRS, getColumns } from "./period"
+import { getRows } from "./transData"
 
 function shuffle(array:number[]):number[] {
     let currentIndex = array.length,  randomIndex
@@ -125,40 +126,113 @@ const performHillClimbing = (text:string, period:number):any[] => {
     return [decoded, bestFitness, parentKey]
 }
 
-const performBigramDecode = (text:string, period:number):any[] => {
-    let decoded:string = ""
-    let bestFitness:number = trigramFitness(text)
-    let key:number[] = []
+const getBigRatingFromCols = (rows:string[], arrangement:number[]):number => {
+    let res:number = 0
+    for (let row of rows) {
+        let bigr:string = row[arrangement[0]-1] + row[arrangement[1]-1]
+        if (bigr.length >= 1) {
+            res += bigramFitness(bigr)
+        }
+    }
+    return res
+}
 
-    return [decoded, key]
+const compileArrangements = (arrangements:Map<number, number>, worstCol:number, targetLength:number):number[] => {
+    // place the number with the worst pairing score at the end of res, as it is likely not followed by any of the columns 
+    // then look for the one that has that as a target and place that before it
+    // continue in this look for target and place key way until the resKey is length of arrangement.keys
+    let resKey:number[] = [worstCol]
+    while (resKey.length < targetLength) {
+        let startLength:number = resKey.length
+        // get the arrangement pair that points to the first index in resKey and add it in the left side of resKey
+        for (let [key, value] of arrangements) {
+            if (value === resKey[0] && !resKey.includes(key)) {
+                resKey.unshift(key)
+                break
+            }
+        }
+        if (resKey.length === startLength) {
+            // there are no matches for the thing that should be last in the resKey
+            // the cipher is not simple transposisition or a different length key is the right one
+            return [0]
+        }
+    }
+    return resKey
+}
+
+const decrementArray = (arr:number[]):number[] => {
+    // decrements every value in an array
+    let resArray:number[] = []
+    for (let num of arr) {
+        resArray.push(num-1)
+    }
+    return resArray
+}
+
+const getDecoded = (rows:string[], key:number[]):string => {
+    let decoded:string = "" 
+    for (let row of rows) {
+        let resRow:string[] = Array<string>(row.length)
+        for (let i=0; i<row.length;i++) {
+            resRow[i] = row[key[i]]
+        }
+        decoded += resRow.join("")
+    }
+    return decoded
 }
 
 export const getTransSimpleDecode = (text:string):any[] => {
-    // using hill climbing attack
-    // with transposition ciphers it is easy to get trapped in a local maximum fitness
-    // hence we add a little leeway to the hill-climbing and allow it to take small steps
-    // toward lower fitness once in a while - a good margin is 0.15 with prob of stepping downward at 5%
-    // using same technique from vigenere to get period length
-    let decoded:string = ""
-    let period:number = 0
-    let periods:number[] = getPeriodLRS(text)
-    let key:number[] = []
+    // using the bigram method
     text = formatString(text)
-    if (periods.length === 0) {
-        // we need to use another technique to find the period
-        period = getPeriodIOC(text)
-        text = padText(text, period)
-        let [interDecoded, keyUsed] = performBigramDecode(text, period) // get best option with current period
-        decoded = interDecoded
-        key = keyUsed
-    } else {
-        period = periods[periods.length - 1]
-        text = padText(text, period)
-        let [interDecoded, keyUsed] = performBigramDecode(text, period) // get best option with current period
-        period = period
-        decoded = interDecoded
-        key = keyUsed
+    text = text.toUpperCase()
+    let decoded:string = ""
+    let key:number[] = []
+    let bestFitness:number = -1000000
+
+    // the different row lengths to try
+    for (let i=2; i<20; i++) {
+        let rowLength:number = i
+        let rows:string[] = getRows(text, rowLength)
+        let worstColumnArrangementScore:number = 0
+        let worstColumn:number = 1
+        // stores 1:2, 2:5 ... meaning 1 is followed by 2 and 2 by 5
+        let columnArrangement:Map<number, number> = new Map()
+        for (let column1=1; column1<=i;column1++) {
+            // try all possibilities for pairing with column k
+            let bestColRating:number = -10000000000
+            let arrangement:number[] = []
+            for (let column2=1; column2<=i; column2++) {
+                if (column1 !== column2) { 
+                    let interRating:number = getBigRatingFromCols(rows, [column1, column2])
+                    if (interRating > bestColRating) {
+                        bestColRating = interRating
+                        arrangement = [column1, column2]
+                    }
+                }
+            }
+            if (worstColumnArrangementScore === 0) {
+                // if hasn't been initialised
+                worstColumnArrangementScore = bestColRating
+                worstColumn = column1
+            } else if (bestColRating < worstColumnArrangementScore) {
+                worstColumnArrangementScore = bestColRating
+                worstColumn = column1
+            }
+            columnArrangement.set(arrangement[0], arrangement[1])
+        }
+        // get compiled key
+        let compiledKey:number[] = compileArrangements(columnArrangement, worstColumn, i)
+        if (compiledKey.length !== 1) {
+            compiledKey = decrementArray(compiledKey)
+            let interDecoded:string = getDecoded(rows, compiledKey)
+            let interFitness = trigramFitness(interDecoded)
+            if (interFitness > bestFitness) {
+                bestFitness = interFitness
+                decoded = interDecoded
+                key = compiledKey
+            }
+        }
     }
 
-    return [`Period of ${period} (${key})`, decoded.toUpperCase()]
+    return [`${key}`, decoded.toUpperCase()]
 }
