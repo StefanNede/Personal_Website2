@@ -1,6 +1,5 @@
 import { formatString } from "./formatString"
-import { tetragramFitness, trigramFitness, bigramFitness } from "./fitness"
-import { getPeriodIOC, getPeriodLRS, getColumns } from "./period"
+import { trigramFitness, bigramFitness } from "./fitness"
 import { getRows } from "./transData"
 
 function shuffle(array:number[]):number[] {
