@@ -13,17 +13,47 @@ const getMatrix = (length:number):number[][] => {
 	return lrs
 }
 
+const getUpperBound = (str:string):number => {
+    let n:number = str.length
+	let lrs:number[][] = getMatrix(n)
+
+    let res:string = ""
+    let resLength:number = 0
+
+    // building table in bottom-up manner
+    let index:number = 0
+    for (let i = 1; i<n+1; i++) {
+        for (let j = i+1; j<n+1; j++) {
+			if (str.charAt(i-1) === str.charAt(j-1) && lrs[i-1][j-1] < (j-i)) {
+                lrs[i][j] = lrs[i - 1][j - 1] + 1
+                if (lrs[i][j] > resLength) {
+                    resLength = lrs[i][j]
+                    index = Math.max(i, index)
+                }
+            }  
+            else {
+                lrs[i][j] = 0
+            }
+        }
+    }
+    return resLength
+}
+
 const LRS = (str:string):any[][] => {
     // to get a lower bound for this (e.g. show substrings with length from lower bound upwards)
     // run dp LRS to get the longest one and set lower bound to its length -4
-
+    let targetLength:number = getUpperBound(str) - 4
+    // console.log(targetLength)
+    if (targetLength+4 <= 0) {
+        return []
+    } else if (targetLength < 0) {
+        targetLength += 4
+    }
 
     // non overlapping, repeating substrings
     // return [substring, length, [appearance1, appearance2, appearance3...],  [gap1, gap2, gap3...]]
 
 	let stringLength:number = str.length
-	// holds all the repeating substrings above a length of 6
-    // because there are multiple appearances of each substring and we want to monitor this this should be a map
 	let substrings:Map<string, any[]> = new Map()
 
 	// creating the 2d matrix for tabulation
@@ -35,7 +65,7 @@ const LRS = (str:string):any[][] => {
 		for (let j=i+1;j<stringLength+1;j++) {
 			if (str.charAt(i-1) === str.charAt(j-1) && lrs[i-1][j-1] < (j-i)) {
 				lrs[i][j] = 1 + lrs[i-1][j-1]
-				if (lrs[i][j] >= 6) {
+				if (lrs[i][j] >= targetLength) {
 					let subIndex:number = Math.max(i, index)
 					let subLength:number = lrs[i][j]
                     let appearance1:number = subIndex-subLength
