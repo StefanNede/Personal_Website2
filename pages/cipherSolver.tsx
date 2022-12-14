@@ -125,8 +125,12 @@ export default function CipherSolver() {
                         res = getVigenereDecode(encoded)
                         decodedText = res[1]
                         keyUsed = res[0]
+                        let resKeyEls:JSX.Element[] = []
+                        for (let key of keyUsed) {
+                            resKeyEls.push(<div>{key}</div>)
+                        }
                         setDecoded(decodedText)
-                        setKeyUsed(keyUsed)
+                        setKeyUsed(resKeyEls)
                         break
                     case "beaufort":
                         res = getBeaufortDecode(encoded)
@@ -170,7 +174,7 @@ export default function CipherSolver() {
                         res = getPolybiusDecode(encoded, speedPrecision)
                         decodedText = res[1]
                         keyUsed = res[0]
-                        let resKeyEls:JSX.Element[] = []
+                        resKeyEls = []
                         for (let key of keyUsed) {
                             resKeyEls.push(<div>{key}</div>)
                         }
