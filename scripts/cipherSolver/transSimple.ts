@@ -189,7 +189,7 @@ export const getTransSimpleDecode = (text:string):any[] => {
     let bestFitness:number = -1000000
 
     // the different row lengths to try
-    for (let i=2; i<40; i++) {
+    for (let i=2; i<35; i++) {
         let rowLength:number = i
         let rows:string[] = getRows(text, rowLength)
         let worstColumnArrangementScore:number = 0
