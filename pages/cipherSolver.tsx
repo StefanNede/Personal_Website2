@@ -21,6 +21,8 @@ import { decodeWigWag } from "../scripts/cipherSolver/wigwag"
 import { getRailfenceDecode } from "../scripts/cipherSolver/railFence"
 import { getBeaufortDecode } from "../scripts/cipherSolver/beaufort"
 import { decodeBaconian } from "../scripts/cipherSolver/baconian"
+import { decodeBifid } from "../scripts/cipherSolver/bifid"
+import { decodeFourSquare } from "../scripts/cipherSolver/fourSquare"
 import { getRows, getColumns } from "../scripts/cipherSolver/transData"
 import { getTransColumnDecode } from "../scripts/cipherSolver/transColumn"
 
@@ -188,6 +190,20 @@ export default function CipherSolver() {
                         setDecoded(decodedText)
                         setKeyUsed(keyUsed)
                         break
+                    case "bifid":
+                        res = decodeBifid(encoded)
+                        decodedText = res[1]
+                        keyUsed = res[0]
+                        setDecoded(decodedText)
+                        setKeyUsed(keyUsed)
+                        break
+                    case "foursquare":
+                        res = decodeFourSquare(encoded)
+                        decodedText = res[1]
+                        keyUsed = res[0]
+                        setDecoded(decodedText)
+                        setKeyUsed(keyUsed)
+                        break
                     case "morse":
                         res = decodeMorse(encoded)
                         decodedText = res[1]
@@ -330,6 +346,8 @@ export default function CipherSolver() {
                             <option value="transCols">extract transposition columns</option>
                             <option value="polybius">polybius</option>
                             <option value="baconian">baconian</option>
+                            <option value="bifid">bifid (only period 2)</option>
+                            <option value="foursquare">four-square</option>
                             <option value="morse">morse</option>
                             <option value="wigwag">wig wag - flag signals</option>
                             <option value="unknown">unknown</option>

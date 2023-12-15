@@ -14,7 +14,7 @@ const getMatrix = (length:number):number[][] => {
 }
 
 const LRS = (str:string):any[][] => {
-    let targetLength:number = 6
+    let targetLength:number = 3
     // console.log(targetLength)
 
     // non overlapping, repeating substrings
