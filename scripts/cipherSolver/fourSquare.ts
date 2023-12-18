@@ -16,7 +16,7 @@ const getLetter = (coor:any[]):string => {
     return letter
 }
 
-const applyKeys = (text:string, period:number, key1:string, key2:string):string => {
+const applyKeys = (text:string, key1:string, key2:string):string => {
     // the actual decoding part given 2 keys
     let pairs:string[] = []
     for (let i=0; i<text.length; i+=2) {
@@ -140,6 +140,7 @@ const swapCols= (parentKey:Array<string>):Array<string> => {
 
 const getChildKey = (parentKey:Array<string>):Array<string> => {
     let x:number = getRandomNum(0, 5)
+    x = 0
     let resKey:Array<string> = []
 
     if (x === 0) {
@@ -220,67 +221,44 @@ const getChildKey = (parentKey:Array<string>):Array<string> => {
 export const decodeFourSquare = (text:string):Array<any> => {
     text = formatString(text)
     text = text.toUpperCase()
-    let frequencies:Map<string,number> = getFrequencies(text)
-    let charsUsed:string[] = Array.from(frequencies.keys())
 
-    let decoded:string = "running"
-    let key1:string = "abcdefghiklmnopqrstuvwxyz"
-    let key2:string = "abcdefghiklmnopqrstuvwxyz"
-    // key1 = "BHICDEFLGAKMNSOPQVRTUWXYZ"
-    //key2 = "CEQFGKLMBNIOPADRSTUHVWXYZ"
-    // key2 = "VWXYZQRSTULMNOPFGHIKABCDE"
-    // key1 = "EBCATKGHFIPMNLOURSQDZWXVY"
-    // key2 = "OFLQAWGMRBXHNSCYIVTDZKPUE"
-    // key2 = "YVITDZPKUEXNHSCWMGRBOLFQA"
-    // key1 = "TACBEIFHGKOLNMPDQSRUYVXWZ"
-
-    // // random 
-    // key1 = "HYSXOCBPUIQVZTDKARLMGFWNE"
-    // key2 = "LSCMHUFKQIXZWEDNTOYBAVRPG"
-
-    key1 = key1.toUpperCase()
-    key2 = key2.toUpperCase()
-
-    // for the purpose of the cipher challenge hard set to 2
-    let period:number = 2
+    let key1:string = "abcdefghiklmnopqrstuvwxyz".toUpperCase()
+    let key2:string = "abcdefghiklmnopqrstuvwxyz".toUpperCase()
 
     // genetic algo
-    let bestDecoded:string = applyKeys(text, period, key1, key2)
+    let bestDecoded:string = applyKeys(text, key1, key2)
     let fitness:number = trigramFitness(bestDecoded)
     let counter:number = 0
-    let upperBound:number = 10000
 
-    while (counter < upperBound) {
+    while (counter < 10000) {
+        console.log("Current best keys: " + key1 + ", " + key2)
         // change key 1
         let oldKey1:Array<string> = []
         for (let k of key1) { oldKey1.push(k)}
         let childKey1:any = ""
-
         // change key 2
         let oldKey2:Array<string> = []
         for (let k of key2) { oldKey2.push(k)}
         let childKey2:any = ""
 
-        let x = getRandomNum(0,1)
-        if (x === 0) {
-            // modify key 1
+        let x:number = getRandomNum(1,2)
+        if (x === 1) {
+            // change key 1
             childKey1 = getChildKey(oldKey1)
             childKey1 = childKey1.join('')
             childKey2 = oldKey2.join('')
         } else {
-            // modify key 2
-            childKey1 = oldKey1.join('')
+            // change key 2
             childKey2 = getChildKey(oldKey2)
             childKey2 = childKey2.join('')
+            childKey1 = oldKey1.join('')
         }
         
-
-        let interDecoded:string = applyKeys(text, period, key1, key2)
+        let interDecoded:string = applyKeys(text, childKey1, childKey2)
         let interFitness:number = trigramFitness(interDecoded)
         // console.log(childKey1, childKey2, interFitness, fitness)
 
-        if ((interFitness >= fitness) || ((interFitness > fitness-100) && getRandomNum(2,2)==2) ) {
-            console.log("HELLO")
+        if ((interFitness > fitness) || ((interFitness > fitness-10) && getRandomNum(1,20)==1) ) {
             key1 = childKey1
             key2 = childKey2
             bestDecoded = interDecoded
@@ -291,7 +269,5 @@ export const decodeFourSquare = (text:string):Array<any> => {
         }
     }
 
-    decoded = bestDecoded
-    
-    return [key1 + key2, decoded]
+    return [key1 + ", " + key2, bestDecoded]
 }
