@@ -1,5 +1,7 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+This web app was used to achieve consecutive silver medals in the 2022 and 2023 National Cipher Challenge (https://www.cipherchallenge.org/). 
+
 ## Home Page
 ![image](https://github.com/user-attachments/assets/23e6c16c-bbb2-459c-aae0-1a5a9c9dd364)
 
@@ -10,9 +12,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 Provides automated decoding to the following types of ciphers using genetic algorithms (hill-climbing techniques):
 ![image](https://github.com/user-attachments/assets/fc3cb920-38e6-49a2-81b8-2d70c71ff761)
 
-
 ## Example of website in action
-
+https://youtu.be/PjGeCM0rP2Q
 
 ## Getting Started
 
