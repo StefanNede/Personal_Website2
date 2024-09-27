@@ -1,5 +1,12 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Home Page
+![image](https://github.com/user-attachments/assets/23e6c16c-bbb2-459c-aae0-1a5a9c9dd364)
+
+
+## Cipher Solver Page
+![image](https://github.com/user-attachments/assets/556a4d1c-2f97-4572-a600-c6a46854f764)
+
 ## Example of website in action
 
 
