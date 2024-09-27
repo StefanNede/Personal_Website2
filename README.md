@@ -7,6 +7,10 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## Cipher Solver Page
 ![image](https://github.com/user-attachments/assets/556a4d1c-2f97-4572-a600-c6a46854f764)
 
+Provides automated decoding to the following types of ciphers using genetic algorithms (hill-climbing techniques):
+![image](https://github.com/user-attachments/assets/fc3cb920-38e6-49a2-81b8-2d70c71ff761)
+
+
 ## Example of website in action
 
 
